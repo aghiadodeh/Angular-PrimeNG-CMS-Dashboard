@@ -59,6 +59,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 ```html
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -69,6 +70,39 @@ export const appConfig: ApplicationConfig = {
     <!-- root -->
   </body>
 </html>
+```
+```json
+// angular.json
+{
+  "projects": {
+      // ...
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "options": {
+            // ...
+            "styles": [
+              "src/styles.scss",
+              "node_modules/@x-angular/cms/styles/prime.scss", // <-- add styles here
+              "node_modules/@x-angular/cms/styles/global.scss", // <-- add styles here
+              {
+                "input": "node_modules/primeng/resources/themes/lara-light-blue/theme.css",  // <-- add styles here
+                "bundleName": "lara-light",
+                "inject": false
+              },
+              {
+                "input": "node_modules/primeng/resources/themes/lara-dark-blue/theme.css",  // <-- add styles here
+                "bundleName": "lara-dark",
+                "inject": false
+              }
+            ]
+          },
+        }
+      }
+  }
+}
 ```
 
 <hr />
