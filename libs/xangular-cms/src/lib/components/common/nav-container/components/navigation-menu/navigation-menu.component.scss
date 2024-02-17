@@ -1,0 +1,22 @@
+.navigation-item-menu {
+    padding: .75rem .85rem;
+    border-radius: 12px;
+    transition: background-color .35s linear;
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: transparent;
+
+    &.router-link-active {
+        font-weight: 500;
+        color: var(--primary-color);
+        background-color: rgb(from var(--primary-color) r g b / 15%);
+
+        &:hover {
+            background-color: rgb(from var(--primary-color) r g b / 15%);
+        }
+    }
+
+    &:hover {
+        background-color: var(--surface-hover);
+    }
+}

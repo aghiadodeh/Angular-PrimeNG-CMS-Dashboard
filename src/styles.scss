@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+.user-table-image {
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}
+
+.product-table-image {
+    img {
+        width: 60px;
+        height: 60px;
+        border-radius: 1rem;
+        object-fit: cover;
+    }
+}
+
+.users-form-container {
+    .cms-generic-form-builder-item:first-child {
+        label {
+            text-align: center;
+            padding-bottom: .5rem;
+        }
+    }
+    .cms-generic-form-builder-item:not(:first-of-type) {
+        max-width: 350px;
+        min-width: 250px;
+    }
+
+    .radio {
+        label {
+            margin-bottom: 1rem !important;
+        }
+    }
+
+    .radio:not(:first-of-type) {
+        margin-bottom: 1rem !important;
+    }
+
+    // .checkbox, .triStateCheckbox, .radio {
+    //     row-gap: 1rem;
+    // }
+}

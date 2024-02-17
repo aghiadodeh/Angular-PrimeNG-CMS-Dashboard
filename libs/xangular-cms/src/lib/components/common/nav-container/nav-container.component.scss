@@ -1,0 +1,18 @@
+.cms-nav-container {
+    .cms-nav-wrapper {
+        height: calc(100vh - 61px);
+        overflow-y: hidden;
+        overflow-x: hidden;
+
+        .inactive {
+            transform: translateX(-100%);
+            width: 0px !important;
+            visibility: hidden;
+        }
+
+        #navigationBar {
+            width: 250px;
+            transition: width 300ms ease;
+        }
+    }
+}

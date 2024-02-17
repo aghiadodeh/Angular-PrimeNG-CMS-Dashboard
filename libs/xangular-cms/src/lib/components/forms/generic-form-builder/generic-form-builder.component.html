@@ -1,0 +1,92 @@
+@if (formGroup) {
+<div class="cms-generic-form-builder"
+    [ngClass]="ngClass ?? formSchema.ngClass ?? 'flex flex-column w-full justify-content-center align-items-center'"
+    [formGroup]="formGroup">
+    @for (input of inputs; track input.key) {
+    @if (input.visible != false && (input.visible$ | async) !== false) {
+    <div class="flex flex-column w-full cms-generic-form-builder-item {{input.key}} {{input.inputType}}">
+        <!-- label -->
+        <label [for]="input.key" class="w-full text-900 text-sm font-medium block mb-1 mt-4">
+            <!-- hide label for checkbox and radioButton -->
+            @if (![types.checkbox, types.triStateCheckbox].includes(input.inputType)) {
+            {{ input.label | translate }}
+            }
+        </label>
+        @if (input.inputType == types.image && input.imageConfiguration) {
+        <!-- upload image -->
+        <cms-upload-image class="w-full" [configuration]="input.imageConfiguration"
+            (imageChanged)="imageChanged(input, $event)" />
+        }
+        @else if (input.inputType == types.file && input.fileConfiguration) {
+        <!-- upload file -->
+        <cms-upload-file class="w-full" [configuration]="input.fileConfiguration"
+            (filesChanged)="filesChanged(input, $event)" />
+        } @else if (input.inputType == types.text || input.inputType == types.email) {
+        <!-- text/email -->
+        <input [type]="input.inputType" pInputText [formControlName]="input.key"
+            [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }"
+            (ngModelChange)="input.onChange?.($event)" />
+        } @else if (input.inputType == types.password) {
+        <!-- password -->
+        <p-password [formControlName]="input.key" [feedback]="false" [inputId]="input.key"
+            [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }"
+            [toggleMask]="input.disabled !== true || (input.disabled$ | async) ?? true"
+            (ngModelChange)="input.onChange?.($event)" />
+        } @else if (input.inputType == types.checkbox) {
+        <!-- checkbox -->
+        <p-checkbox [formControlName]="input.key" label="{{ input.label | translate }}" [inputId]="input.key"
+            [value]="input.value" [binary]="true" [trueValue]="true" [falseValue]="false"
+            (onChange)="checkBoxChanged(input, $event)" />
+        } @else if (input.inputType == types.triStateCheckbox) {
+        <!-- three state checkbox true/false/null -->
+        <p-triStateCheckbox [formControlName]="input.key" label="{{ input.label | translate }}" [inputId]="input.key"
+            (onChange)="triStateCheckboxChanged(input, $event)" />
+        } @else if (input.inputType == types.radio) {
+        @if (input.radioGroupConfiguration; as radioGroupConfiguration) {
+        <!-- radio button -->
+        <div [ngClass]="radioGroupConfiguration.ngClass">
+            <div *ngFor="let button of radioGroupConfiguration.radioButtons" [ngClass]="button.ngClass">
+                <p-radioButton [inputId]="button.label" [value]="button.value" [formControlName]="input.key" (ngModelChange)="input.onChange?.($event)"/>
+                <label [for]="button.label" class="ml-2">{{ button.label | translate }}</label>
+            </div>
+        </div>
+        }
+        } @else if (input.inputType == types.color) {
+        <!-- color picker -->
+        <p-colorPicker [formControlName]="input.key" appendTo="body" [inputId]="input.key" />
+        } @else if (input.inputType == types.number) {
+        <!-- number -->
+        <p-inputNumber [inputId]="input.key" [formControlName]="input.key" [suffix]="input.numberConfiguration?.suffix"
+            [prefix]="input.numberConfiguration?.prefix" [mode]="input.numberConfiguration?.mode ?? 'decimal'"
+            locale="en-US" [currency]="input.numberConfiguration?.currency ?? 'USD'"
+            [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }" />
+        } @else if (input.inputType == types.date || input.inputType == types.time) {
+        <!-- date/time -->
+        <p-calendar [formControlName]="input.key" [timeOnly]="input.inputType === types.time" [iconDisplay]="'input'"
+            [showIcon]="true" [inputId]="input.key" [dateFormat]="input.calendarConfiguration?.dateFormat"
+            [inputId]="input.key"
+            [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }" />
+        } @else if (input.inputType == types.dropdown && input.dropdownConfiguration) {
+        <!-- dropdown -->
+        <cms-generic-dropdown class="flex w-full" [configuration]="input.dropdownConfiguration"
+            [disabled]="(input.disabled ?? false) || (input.disabled$ | async)"
+            [invalid]="formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched"
+            (valueChange)="dropdownValueChanged(input, $event)" />
+        } @else if (input.inputType == types.multiSelect && input.mutliSelectConfiguration) {
+        <!-- multi-select -->
+        <cms-generic-multi-select class="flex w-full" [configuration]="input.mutliSelectConfiguration"
+            [disabled]="(input.disabled ?? false) || (input.disabled$ | async)"
+            [invalid]="formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched"
+            (valueChange)="dropdownValueChanged(input, $event)" />
+        } @else if (input.inputType == types.autocomplete && input.autoCompleteConfiguration) {
+        <!-- auto-complete -->
+        <cms-generic-auto-complete class="flex w-full" [configuration]="input.autoCompleteConfiguration"
+            [disabled]="(input.disabled ?? false) || (input.disabled$ | async)"
+            [invalid]="formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched"
+            (valueChange)="dropdownValueChanged(input, $event)" />
+        }
+    </div>
+    }
+    }
+</div>
+}

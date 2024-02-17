@@ -1,0 +1,3 @@
+[submodule "libs/cms"]
+	path = libs/cms
+	url = https://gitlab.com/aghiadodeh/angular-cms-library.git

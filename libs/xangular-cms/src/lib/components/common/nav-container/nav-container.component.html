@@ -1,0 +1,28 @@
+<div class="cms-nav-container w-screen h-screen">
+    <ng-content select="[topContent]"></ng-content>
+    <div class="cms-nav-wrapper flex flex-row">
+        @if (isTablet) {
+        <!-- navigation-menu for sm screen -->
+        <p-sidebar [(visible)]="sidebarVisible" #sidebar>
+            <ng-template pTemplate="headless">
+                <div class="flex flex-column">
+                    <img src="assets/images/logo.png" alt="logo" height="65" width="70" style="margin: 1rem auto;">
+                    <cms-navigation-menu [navigationItems]="navigationItems" class="px-1 py-3" />
+                    <p-divider class="no-padding" />
+                </div>
+            </ng-template>
+        </p-sidebar>
+        }
+
+        <!-- navigation-menu for lg,md screens -->
+        <div id="navigationBar" class="flex-row hidden xl:flex">
+            <cms-navigation-menu [navigationItems]="navigationItems" class="flex-1 px-1" />
+            <p-divider layout="vertical" />
+        </div>
+
+        <!-- body -->
+        <div class="flex-1 cms-body-wrapper">
+            <ng-content select="[bodyContent]"></ng-content>
+        </div>
+    </div>
+</div>

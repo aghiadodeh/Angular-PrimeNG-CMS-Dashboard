@@ -1,0 +1,16 @@
+<p-toolbar>
+    <div class="p-toolbar-group-start gap-2">
+        @if (withIcon) {
+            <p-button class="rounded-icon-btn" [rounded]="true" [text]="true" (click)="toggleMenu()">
+                <i class="pi pi-bars text-xl"></i>
+            </p-button>
+        }
+        <ng-content select="[startContent]"></ng-content>
+    </div>
+    <div class="p-toolbar-group-center">
+        <ng-content select="[centerContent]"></ng-content>
+    </div>
+    <div class="p-toolbar-group-end">
+        <ng-content select="[endContent]"></ng-content>
+    </div>
+</p-toolbar>

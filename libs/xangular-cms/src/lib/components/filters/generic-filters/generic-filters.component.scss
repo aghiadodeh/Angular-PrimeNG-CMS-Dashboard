@@ -1,0 +1,24 @@
+.generic-filters-wrapper {
+    input {
+        width: 100%;
+    }
+
+    .generic-filters-item {
+        min-width: 300px;
+        max-width: 350px;
+        width: 100%;
+        flex: 1;
+
+        p-inputNumber {
+            width: 100%;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .generic-filters-wrapper {
+        .generic-filters-item {
+            max-width: none !important;
+        }
+    }
+}

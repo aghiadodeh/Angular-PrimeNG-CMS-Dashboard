@@ -1,0 +1,26 @@
+<div class="cms-view-details-container flex flex-column">
+    <!-- loading -->
+    @if (result.loading$ | async) {
+    <!-- custom loading -->
+    <div #customLoading>
+        <ng-content select="[loading]"></ng-content>
+    </div>
+
+    @if (customLoading?.children?.length == 0) {
+    <!-- progressBar -->
+    <p-progressBar mode="indeterminate" [style]="{'height': '2.5px'}" />
+    }
+    } @else {
+    <div class="cms-view-details-wrapper flex flex-column">
+        <!-- title -->
+        @if (title) {
+        <span class="text-900 text-3xl font-medium p-3">
+            {{ title }}
+        </span>
+        }
+
+        <!-- details content -->
+        <ng-content select="[content]"></ng-content>
+    </div>
+    }
+</div>

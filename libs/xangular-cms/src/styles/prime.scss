@@ -1,0 +1,158 @@
+@import "primeng/resources/primeng.css";
+@import "primeflex/primeflex.scss";
+@import "primeicons/primeicons.css";
+
+:root {
+    --blue-500: #2196F3 !important;
+    --error-color: #d20000;
+}
+
+p-password {
+    input,
+    .p-password {
+        width: 100%;
+    }
+}
+
+p-inputnumber {
+    span {
+        width: 100%;
+    }
+}
+
+.p-blockui {
+    p-progressBar {
+        width: 100%;
+    }
+}
+
+.p-toolbar {
+    padding: 10px 14px !important;
+    border: unset !important;
+    border-radius: 0 !important;
+}
+
+.rounded-icon-btn {
+    button {
+        padding: .65rem !important;
+    }
+}
+
+.full-w-btn {
+    p-button {
+        button {
+            display: block;
+            width: 100%;
+        }
+    }
+}
+
+.no-padding {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    .p-divider,
+    .p-card .p-card-content,
+    .p-card .p-card-body {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
+.no-y-padding {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+
+    .p-card .p-card-content,
+    .p-card .p-card-body {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
+.no-radius {
+
+    .p-card {
+        border-radius: 0 !important;
+    }
+}
+
+.no-header-radius {
+    .p-accordion .p-accordion-header .p-accordion-header-link {
+        border-radius: 0 !important;
+    }
+}
+
+.p-progressBar-grey {
+
+    .p-progressbar-indeterminate .p-progressbar-value:before,
+    .p-progressbar-indeterminate .p-progressbar-value:after {
+        background-color: white !important;
+    }
+
+    .p-progressbar {
+        background: gray !important;
+    }
+}
+
+p-calendar {
+    .p-calendar {
+        width: 100%;
+    }
+}
+
+p-dropdown {
+    .p-dropdown {
+        width: 100%;
+    }
+}
+
+p-multiselect {
+    .p-multiselect {
+        width: 100%;
+    }
+}
+
+p-autocomplete {
+
+    .p-autocomplete,
+    .p-autocomplete-multiple-container {
+        width: 100%;
+
+        input {
+            width: 100%;
+        }
+    }
+}
+
+p-image {
+    .p-image-preview-container {
+        width: 100%;
+
+        img {
+            object-fit: cover;
+        }
+    }
+}
+
+p-avatar {
+    img {
+        object-fit: cover;
+    }
+}
+
+.p-fileupload-buttonbar {
+    justify-content: center;
+    display: flex;
+}
+
+.p-fileupload-row {
+    img {
+        border-radius: 6px;
+    }
+}
+
+.p-datatable-wrapper {
+    min-width: 600px;
+    overflow-x: hidden !important;
+}

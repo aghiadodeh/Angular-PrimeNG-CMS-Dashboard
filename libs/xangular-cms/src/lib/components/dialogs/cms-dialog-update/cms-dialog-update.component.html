@@ -1,0 +1,26 @@
+<div class="cms-dialog-update-container w-full flex flex-column justify-content-center align-items-center">
+    @if (loading) {
+    <!-- loading spinner -->
+    <div class="flex h-10rem align-items-center">
+        <span class="text-primary">
+            <i class="pi pi-spin pi-spinner"></i>
+        </span>
+    </div>
+    } @else {
+    <!-- generic form -->
+    <cms-generic-form-builder class="w-full" [formSchema]="cmsService.formSchema!" [item]="item" />
+    }
+    <p-divider class="w-full" />
+
+    <!-- actions -->
+    <div class="w-full flex justify-content-end">
+        <p-button [text]="true" severity="danger" (onClick)="close()"
+            [disabled]="(cmsService.loading$ | async) ?? false">
+            <span>{{ 'cancel' | translate }}</span>
+        </p-button>
+        <p-button [text]="true" [disabled]="!item || genericFormBuilder?.formGroup?.valid != true"
+            [loading]="(cmsService.loading$ | async) ?? false" (onClick)="submit()">
+            <span class="px-2">{{ 'submit' | translate }}</span>
+        </p-button>
+    </div>
+</div>

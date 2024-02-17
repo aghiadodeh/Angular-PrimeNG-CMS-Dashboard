@@ -1,0 +1,17 @@
+<div class="cms-dialog-create-container w-full flex flex-column justify-content-center align-items-center">
+    <!-- generic form -->
+    <cms-generic-form-builder class="w-full" [formSchema]="cmsService.formSchema!" />
+    <p-divider class="w-full" />
+
+    <!-- actions -->
+    <div class="w-full flex justify-content-end">
+        <p-button [text]="true" severity="danger" (onClick)="close()"
+            [disabled]="(cmsService.loading$ | async) ?? false">
+            <span>{{ 'cancel' | translate }}</span>
+        </p-button>
+        <p-button [text]="true" [disabled]="genericFormBuilder?.formGroup?.valid != true"
+            [loading]="(cmsService.loading$ | async) ?? false" (onClick)="submit()">
+            <span class="px-2">{{ 'submit' | translate }}</span>
+        </p-button>
+    </div>
+</div>

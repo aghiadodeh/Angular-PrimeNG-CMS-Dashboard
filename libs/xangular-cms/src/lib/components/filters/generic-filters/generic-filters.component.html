@@ -1,0 +1,43 @@
+<div class="generic-filters-container flex flex-column">
+    <ng-content select="[title]"></ng-content>
+    <div class="generic-filters-wrapper flex flex-column flex-wrap md:flex-row gap-3 
+                justify-content-start align-items-center">
+        <!-- inputs -->
+        @for(input of filterSchema.inputs; track input.key) {
+        <div class="generic-filters-item">
+            <label [for]="input.key" class="text-900 text-sm font-medium block mb-1">
+                {{ input.label | translate }}
+            </label>
+            @if (input.inputType == types.text || input.inputType == types.email) {
+            <!-- text/email -->
+            <input [type]="input.inputType" pInputText [(ngModel)]="input.value" />
+            } @else if (input.inputType == types.number) {
+            <!-- number -->
+            <p-inputNumber [inputId]="input.key" [(ngModel)]="input.value" />
+            } @else if(input.inputType == types.search) {
+            <!-- search -->
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input type="text" pInputText [(ngModel)]="input.value" />
+            </span>
+            } @else if(input.inputType == types.date || input.inputType == types.time){
+            <!-- date/time -->
+            <p-calendar [(ngModel)]="input.value" [timeOnly]="input.inputType === types.time" [iconDisplay]="'input'"
+                [showIcon]="true" [inputId]="input.key" />
+            } @else if(input.inputType == types.dropdown && input.dropdownConfiguration){
+            <!-- select -->
+            <cms-generic-dropdown class="flex w-full" [configuration]="input.dropdownConfiguration"
+                [(option)]="input.value" [disabled]="input.disabled ?? (input.disabled$ | async)" />
+            } @else if(input.inputType == types.multiSelect){
+            <!-- multi-select -->
+            <cms-generic-multi-select />
+            } @else {
+            <span>
+                ({{ input.inputType }}) type not handled
+            </span>
+            }
+        </div>
+        }
+    </div>
+    <ng-content select="[actions]"></ng-content>
+</div>

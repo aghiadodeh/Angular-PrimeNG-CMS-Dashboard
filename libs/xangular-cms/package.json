@@ -1,0 +1,33 @@
+{
+  "name": "@xangular/cms",
+  "version": "1.0.0",
+  "description": "Manage repetitive CRUDs (Create, Read, Update and Delete) Operations with a few lines depending on PrimeNG",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "Angular",
+    "cms",
+    "CRUDs"
+  ],
+  "author": {
+    "name": "Aghiad Odeh"
+  },
+  "peerDependencies": {
+    "@angular/common": "^17.1.0",
+    "@angular/core": "^17.1.0",
+    "@angular/forms": "~17.1.0",
+    "@ngneat/cashew": "^3.1.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
+    "file-saver": "^2.0.5",
+    "moment-timezone": "^0.5.44",
+    "primeflex": "^3.3.1",
+    "primeicons": "^6.0.1",
+    "primeng": "^17.5.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
