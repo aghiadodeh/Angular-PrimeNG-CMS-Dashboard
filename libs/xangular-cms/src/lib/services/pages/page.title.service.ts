@@ -6,7 +6,7 @@ import { TranslationService } from '../../modules/translation/services/translati
 
 @Injectable({ providedIn: 'root' })
 export class PageTitleService {
-  private prefix = "Tradinos";
+  private prefix = "Angular";
 
   constructor(
     private translationService: TranslationService,
