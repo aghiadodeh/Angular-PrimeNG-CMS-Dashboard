@@ -1,8 +1,11 @@
 # Angular PrimeNg CMS Dashboard
-Manage repetitive CRUDs Operations with a few lines depending on [PrimeNg](https://primeng.org/) and [PrimeFlex] (https://primeflex.org)
+Manage repetitive CRUDs Operations with a few lines depending on [PrimeNg](https://primeng.org/) and [PrimeFlex](https://primeflex.org)
 
 ## Angular Version:
 17.1.0
+
+## Example:
+[Github](https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/tree/main/example)
 
 ## Features:
 1. Generic Filters Builder
