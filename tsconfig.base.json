@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@xangular/cms": ["libs/xangular-cms/src/index.ts"]
+      "@x-angular/cms": ["libs/xangular-cms/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

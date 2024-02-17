@@ -1,0 +1,18 @@
+<cms-list [templates]="{
+    'thumbnail': userImageTemplate,
+    'rating': ratingImageTemplate,
+}" />
+
+<!-- product image -->
+<ng-template let-product #userImageTemplate>
+    <div class="product-table-image">
+        <img [src]="product.thumbnail">
+    </div>
+</ng-template>
+
+<!-- product rating -->
+<ng-template let-product #ratingImageTemplate>
+    <div class="product-table-rating">
+        <p-rating [readonly]="true" [cancel]="false" [(ngModel)]="product.rating" />
+    </div>
+</ng-template>

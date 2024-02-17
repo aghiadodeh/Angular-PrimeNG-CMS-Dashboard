@@ -1,8 +1,11 @@
 # Angular PrimeNg CMS Dashboard
-Manage repetitive CRUDs Operations with a few lines depending on [PrimeNg](https://primeng.org/) and [Prime-Flex] (https://primeflex.org)
+Manage repetitive CRUDs Operations with a few lines depending on [PrimeNg](https://primeng.org/) and [PrimeFlex](https://primeflex.org)
 
 ## Angular Version:
 17.1.0
+
+## Example:
+[Github](https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/tree/main/example)
 
 ## Features:
 1. Generic Filters Builder
@@ -15,7 +18,7 @@ Manage repetitive CRUDs Operations with a few lines depending on [PrimeNg](https
 
 ## Installation:
 ```shell
-npm install @xangular/cms
+npm install @x-angular/cms
 ```
 
 
@@ -23,7 +26,7 @@ npm install @xangular/cms
 CMS library use Angular [InjectionToken](https://angular.io/api/core/InjectionToken) to provide the environment configurations like `API_URL` as a dependency,
 You can inject your environment configurations globally in the `src/app/app.config.ts`:
 ```typescript
-import { CMS_CONFIGURATION } from '@angular-core/cms';
+import { CMS_CONFIGURATION } from '@x-angular/cms';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { DynamicDialogConfig } from "primeng/dynamicdialog";
 
@@ -54,8 +57,20 @@ export const appConfig: ApplicationConfig = {
     ]),
   ],
 };
-
 ```
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- add prime theme here -->
+    <link id="app-theme" rel="stylesheet" type="text/css" href="lara-light.css">
+  </head>
+  <body>
+    <!-- root -->
+  </body>
+</html>
+```
+
 <hr />
 
 ## Create new CRUD:
@@ -80,7 +95,7 @@ export interface Product {
 2. Declare ***@Injecable*** Service `ProductService` which extends `CmsService` from CMS library:
 ```typescript
 import { Injectable } from "@angular/core";
-import { CmsService } from '@angular-core/cms';
+import { CmsService } from '@x-angular/cms';
 import { Product } from "src/app/models/product.model";
 
 @Injectable()
@@ -137,7 +152,7 @@ the `index` in `endPoints` is the products resource name in the backend, so when
 // src/app/dashboard/modules/products/products.component.ts
 import { Component } from '@angular/core';
 import { ProductService } from './services/products.service';
-import { CmsService, CmsListComponent } from '@angular-core/cms';
+import { CmsService, CmsListComponent } from '@x-angular/cms';
 import { Product } from "src/app/models/product.model";
 
 @Component({
@@ -524,7 +539,7 @@ export class ProductService extends CmsService<Product> {
 
 `product-details.component.ts`:
 ```typescript
-import { CmsViewDetailsComponent } from `@angular-core/cms`;
+import { CmsViewDetailsComponent } from `@x-angular/cms`;
 
 @Component({
   // ...,
@@ -832,7 +847,7 @@ You Can use `cms-generic-filters` instead of default `cms-filters`
 </cms-list>
 ```
 ```typescript
-import { CmsListComponent, GenericFiltersComponent } from '@angular-core/cms';
+import { CmsListComponent, GenericFiltersComponent } from '@x-angular/cms';
 
 @Component({
   // ...,

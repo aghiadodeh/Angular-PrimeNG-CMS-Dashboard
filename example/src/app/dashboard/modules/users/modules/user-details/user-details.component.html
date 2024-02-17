@@ -1,0 +1,8 @@
+<cms-view-details [result]="result">
+    <div class="user-view-details-container w-full f-height fadein animation-duration-500 p-3" content>
+        @if (result.data$ | async; as data) {
+        <img [src]="data.image" />
+        <span>{{ data.firstName }} {{ data.lastName }}</span>
+        }
+    </div>
+</cms-view-details>

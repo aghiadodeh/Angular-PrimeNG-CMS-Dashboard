@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, PrimeNGConfig } from 'primeng/api';
-import { AppContainerComponent, TranslationService } from '@xangular/cms';
+import { AppContainerComponent, TranslationService } from '@x-angular/cms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -20,7 +20,6 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   public translate = signal(false);
-
 
   constructor(
     public translateService: TranslationService,

@@ -1,0 +1,72 @@
+<div class="flex flex-column">
+    <cms-list class="fadein animation-duration-500" [templates]="{'image': userImageTemplate}">
+        <!-- custom filters layout -->
+        <div class="w-full p-3" filters>
+            <ng-container [ngTemplateOutlet]="filterTemplete"></ng-container>
+        </div>
+
+        <div class="w-full flex justify-content-between align-items-center p-3" header>
+            <p-button (onClick)="togglePaginator()">{{ 'toggle_paginator' | translate }}</p-button>
+            <p-inputSwitch [(ngModel)]="customViewChecked" (ngModelChange)="customViewChanged()"></p-inputSwitch>
+        </div>
+
+        <div tableStartActions>
+            <p-button severity="info" [outlined]="true">
+                <span>{{ 'custom_action' | translate }} 1</span>
+            </p-button>
+        </div>
+
+        <div tableEndActions>
+            <p-button severity="danger" [outlined]="true" [rounded]="true">
+                <span>{{ 'custom_action' | translate }} 2</span>
+            </p-button>
+        </div>
+
+        @if (customViewChecked) {
+        <div class="flex flex-column pb-3" custom>
+            <div
+                class="flex flex-wrap w-full gap-3 justify-content-center align-items-center fadein animation-duration-500">
+                @if (userService.result$ | async; as result) {
+                @for (user of result.data; track user.id) {
+                <div class="custom-user-card w-full">
+                    <p-card class="flex flex-column w-full gap-2">
+                        <img [src]="user.image" width="100%" height="200" />
+                        <span>{{ user.firstName }} {{ user.lastName }}</span>
+                    </p-card>
+                </div>
+                }
+                }
+            </div>
+        </div>
+        }
+    </cms-list>
+</div>
+
+<ng-template #filterTemplete>
+    <div class="flex flex-column w-full">
+        <cms-generic-filters [filterSchema]="userService.filterSchema">
+            <div class="w-full flex justify-content-end align-items-center pt-3" actions>
+                <!-- custom actions -->
+                <p-button severity="success" [text]="true">
+                    <span>{{ 'custom_action' | translate }}</span>
+                </p-button>
+
+                <!-- reset filters -->
+                <p-button severity="danger" [text]="true" (onClick)="resetFilters()">
+                    <span>{{ 'reset' | translate }}</span>
+                </p-button>
+
+                <!-- apply filters -->
+                <p-button [text]="true" (onClick)="applyFilters()">
+                    <span>{{ 'apply' | translate }}</span>
+                </p-button>
+            </div>
+        </cms-generic-filters>
+    </div>
+</ng-template>
+
+<ng-template let-user #userImageTemplate>
+    <div class="user-table-image">
+        <img [src]="user.image">
+    </div>
+</ng-template>

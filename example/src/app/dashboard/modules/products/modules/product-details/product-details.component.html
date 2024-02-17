@@ -1,0 +1,18 @@
+<cms-view-details [result]="result">
+    <div class="product-view-details-container w-full f-height fadein animation-duration-500" content>
+        @if (result.data$ | async; as data) {
+        <!-- image -->
+        <p-image src="{{ data.thumbnail }}" alt="Image" class="img-fit" width="100%" height="400"
+            [preview]="true" />
+
+        <div class="flex flex-column p-3">
+            <div class="flex justify-content-between align-items-center  pb-5 pt-2">
+                <!-- title -->
+                <span class="text-900 text-3xl font-medium">
+                    {{ data.title }}
+                </span>
+            </div>
+        </div>
+        }
+    </div>
+</cms-view-details>
