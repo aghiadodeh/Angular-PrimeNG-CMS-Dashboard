@@ -502,7 +502,7 @@ export class ProductService extends CmsService<Product> {
 **View**, **Update** and **Delete** Actions handled by `cms-list`, so no need to observe these actions from your component.
 ### Observe Custom Action:
 You can detect when user click on `product-custom_action`:
-```
+```typescript
 export class ProductsListComponent {
   constructor(productsService: ProductService) {
     productsService.rowAction$.subscribe((action: BaseRowEvent<Product>) => {
@@ -599,7 +599,7 @@ Extending `ViewDetailsComponent` will send request to server for get item detail
 ```
 
 ### Export Action (download file):
-```
+```typescript
 @Injectable()
 export class ProductService extends CmsService<Product> {
     // download file
@@ -613,7 +613,7 @@ export class ProductService extends CmsService<Product> {
 ```
 
 ### Import Action (upload file):
-```
+```typescript
 @Injectable()
 export class ProductService extends CmsService<Product> {
     public override crudConfiguration: CRUDConfiguration<Product> = {
@@ -628,7 +628,7 @@ export class ProductService extends CmsService<Product> {
 ```
 
 ### Delete Multiple Rows:
-```
+```typescript
 @Injectable()
 export class ProductService extends CmsService<Product> {
     public override crudConfiguration: CRUDConfiguration<Product> = {
@@ -647,7 +647,7 @@ Update action has two types
 1. dialog
 2. page
 
-```
+```typescript
 @Injectable()
 export class ProductService extends CmsService<Product> {
     public override crudConfiguration: CRUDConfiguration<Product> = {

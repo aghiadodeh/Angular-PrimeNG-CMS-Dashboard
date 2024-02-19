@@ -5,7 +5,11 @@ Manage repetitive CRUDs Operations with a few lines depending on [PrimeNg](https
 17.1.0
 
 ## Example:
-[Github](https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/tree/main/example)
+to run example:
+```shell
+npm install
+npx nx run angular-core:serve --configuration=development
+```
 
 ## Features:
 1. Generic Filters Builder
@@ -599,7 +603,7 @@ Extending `ViewDetailsComponent` will send request to server for get item detail
 ```
 
 ### Export Action (download file):
-```
+```typescript
 @Injectable()
 export class ProductService extends CmsService<Product> {
     // download file
@@ -613,7 +617,7 @@ export class ProductService extends CmsService<Product> {
 ```
 
 ### Import Action (upload file):
-```
+```typescript
 @Injectable()
 export class ProductService extends CmsService<Product> {
     public override crudConfiguration: CRUDConfiguration<Product> = {
@@ -628,7 +632,7 @@ export class ProductService extends CmsService<Product> {
 ```
 
 ### Delete Multiple Rows:
-```
+```typescript
 @Injectable()
 export class ProductService extends CmsService<Product> {
     public override crudConfiguration: CRUDConfiguration<Product> = {
@@ -647,7 +651,7 @@ Update action has two types
 1. dialog
 2. page
 
-```
+```typescript
 @Injectable()
 export class ProductService extends CmsService<Product> {
     public override crudConfiguration: CRUDConfiguration<Product> = {

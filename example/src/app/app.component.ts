@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, PrimeNGConfig } from 'primeng/api';
-import { AppContainerComponent, TranslationService } from '@x-angular/cms';
+import { AppContainerComponent, TranslationService, PageTitleService } from '@x-angular/cms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -23,8 +23,10 @@ export class AppComponent {
 
   constructor(
     public translateService: TranslationService,
+    public pageTitleService: PageTitleService,
     primeNgConfig: PrimeNGConfig,
-  ) {
+  ) { 
+    pageTitleService.setPrefix("Angular CMS dashboard");
     primeNgConfig.translationObserver.subscribe(() => {
       this.translate.set(true);
     });

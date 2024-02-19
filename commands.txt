@@ -1,1 +1,0 @@
-npx nx run angular-core:serve --configuration=development
