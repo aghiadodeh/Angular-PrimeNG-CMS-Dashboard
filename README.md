@@ -577,7 +577,7 @@ export class ProductService extends CmsService<Product> {
 
 `product-details.component.ts`:
 ```typescript
-import { CmsViewDetailsComponent } from `@x-angular/cms`;
+import { CmsViewDetailsComponent, ViewDetailsComponent } from '@x-angular/cms';
 
 @Component({
   // ...,

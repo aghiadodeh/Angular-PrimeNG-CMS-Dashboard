@@ -6,3 +6,9 @@ add setData & setLoading to Result class
 
 # 1.0.11
 fix PropertyKeyPipe read null property
+
+# 1.0.12
+fix null remoteDataConfiguration
+
+# 1.0.15
+open view item details screen in new tab

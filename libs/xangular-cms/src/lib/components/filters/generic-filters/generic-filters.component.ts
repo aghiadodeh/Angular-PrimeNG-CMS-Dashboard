@@ -8,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { GenericDropdownComponent } from '../../forms/generic-dropdown/generic-dropdown.component';
 import { GenericMultiSelectComponent } from '../../forms/generic-multi-select/generic-multi-select.component';
+import moment from 'moment-timezone';
 
 @Component({
   selector: 'cms-generic-filters',
@@ -34,13 +35,21 @@ export class GenericFiltersComponent {
       .filter((input: FilterInput) => input.value)
       .map((input: FilterInput) => {
         let value;
-        switch(input.inputType) {
+        switch (input.inputType) {
           case FilterInputType.dropdown:
-            const { valueBy } = input.dropdownConfiguration!;
-            value = input.value ? input.value[valueBy] : undefined;
+            value = input.value ? input.value[input.dropdownConfiguration!.valueBy] : undefined;
+            break;
+          case FilterInputType.multiSelect:
+            if (input.mutliSelectConfiguration?.valueBy != "" && Array.isArray(input.value)) {
+              input.value = input.value?.map(e => e[input.mutliSelectConfiguration!.valueBy])
+            }
+            value = Array.isArray(input.value) ? input.value.join(",") : input.value;
             break;
           default:
             value = input.value;
+        }
+        if (input.value instanceof Date) {
+          value = moment(input.value).utcOffset(0, true).format(); 
         }
         return { [input.key]: value }
       });

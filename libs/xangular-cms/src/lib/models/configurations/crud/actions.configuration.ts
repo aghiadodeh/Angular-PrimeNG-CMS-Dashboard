@@ -11,6 +11,7 @@ export enum CmsActionEnum {
     export = 'export',
     update = 'update',
     view = 'view',
+    view_new_tab = 'view_new_tab',
 }
 
 /**

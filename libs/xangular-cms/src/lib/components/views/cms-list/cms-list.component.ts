@@ -163,7 +163,10 @@ export class CmsListComponent<T> extends DestroyedComponent implements OnInit, O
 
     switch (key) {
       case CmsActionEnum.view:
-        this.viewItem(item);
+        this.viewItem(item, false);
+        break;
+      case CmsActionEnum.view_new_tab:
+        this.viewItem(item, true);
         break;
       case CmsActionEnum.update:
         this.updateItem(item);
@@ -213,9 +216,13 @@ export class CmsListComponent<T> extends DestroyedComponent implements OnInit, O
   /**
    * navigate to view-details page by item id
    */
-  public viewItem(item: T): void {
+  public viewItem(item: T, newTab: boolean): void {
     const url = this.cmsService.viewDetailsRoute?.(item) ?? `view/${this.id(item)}`;
-    this.router.navigate([url], { relativeTo: this.activatedRoute });
+    if (newTab) {
+      window.open(`${window.location.href}/${url}`, '_blank');
+    } else {
+      this.router.navigate([url], { relativeTo: this.activatedRoute });
+    }
   }
 
   public updateItem(item: T): void {

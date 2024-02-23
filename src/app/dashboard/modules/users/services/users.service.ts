@@ -37,6 +37,13 @@ export class UserService extends CmsService<User> {
                     severity: 'success',
                 },
                 {
+                    key: CmsActionEnum.view_new_tab,
+                    label: 'view',
+                    icon: 'pi pi-eye',
+                    visible: item.id == 2,
+                    severity: 'success',
+                },
+                {
                     key: CmsActionEnum.update,
                     label: 'update',
                     icon: 'pi pi-pencil',

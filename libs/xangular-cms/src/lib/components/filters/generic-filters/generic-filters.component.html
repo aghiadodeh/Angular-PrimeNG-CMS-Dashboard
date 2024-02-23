@@ -14,23 +14,24 @@
             } @else if (input.inputType == types.number) {
             <!-- number -->
             <p-inputNumber [inputId]="input.key" [(ngModel)]="input.value" />
-            } @else if(input.inputType == types.search) {
+            } @else if (input.inputType == types.search) {
             <!-- search -->
             <span class="p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input type="text" pInputText [(ngModel)]="input.value" />
             </span>
-            } @else if([types.date, types.time,types.datetime].includes(input.inputType)){
+            } @else if ([types.date, types.time,types.datetime].includes(input.inputType)){
             <!-- date/time -->
             <p-calendar [(ngModel)]="input.value" [timeOnly]="input.inputType === types.time" [iconDisplay]="'input'"
                 [showTime]="input.inputType === types.datetime" [showIcon]="true" [inputId]="input.key" />
-            } @else if(input.inputType == types.dropdown && input.dropdownConfiguration){
+            } @else if (input.inputType == types.dropdown && input.dropdownConfiguration){
             <!-- select -->
             <cms-generic-dropdown class="flex w-full" [configuration]="input.dropdownConfiguration"
                 [(option)]="input.value" [disabled]="input.disabled ?? (input.disabled$ | async)" />
-            } @else if(input.inputType == types.multiSelect){
+            } @else if (input.inputType == types.multiSelect && input.mutliSelectConfiguration){
             <!-- multi-select -->
-            <cms-generic-multi-select />
+            <cms-generic-multi-select class="flex w-full" [configuration]="input.mutliSelectConfiguration"
+                [(option)]="input.value" [disabled]="input.disabled ?? (input.disabled$ | async)" />
             } @else {
             <span>
                 ({{ input.inputType }}) type not handled
