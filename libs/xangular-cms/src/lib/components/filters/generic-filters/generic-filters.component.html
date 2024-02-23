@@ -20,10 +20,10 @@
                 <i class="pi pi-search"></i>
                 <input type="text" pInputText [(ngModel)]="input.value" />
             </span>
-            } @else if(input.inputType == types.date || input.inputType == types.time){
+            } @else if([types.date, types.time,types.datetime].includes(input.inputType)){
             <!-- date/time -->
             <p-calendar [(ngModel)]="input.value" [timeOnly]="input.inputType === types.time" [iconDisplay]="'input'"
-                [showIcon]="true" [inputId]="input.key" />
+                [showTime]="input.inputType === types.datetime" [showIcon]="true" [inputId]="input.key" />
             } @else if(input.inputType == types.dropdown && input.dropdownConfiguration){
             <!-- select -->
             <cms-generic-dropdown class="flex w-full" [configuration]="input.dropdownConfiguration"

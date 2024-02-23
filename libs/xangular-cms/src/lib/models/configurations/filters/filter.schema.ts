@@ -35,6 +35,7 @@ export enum FilterInputType {
     number = 'number',
     date = 'date',
     time = 'time',
+    datetime = 'datetime',
     search = 'search',
     dropdown = 'dropdown',
     multiSelect = 'multiSelect',

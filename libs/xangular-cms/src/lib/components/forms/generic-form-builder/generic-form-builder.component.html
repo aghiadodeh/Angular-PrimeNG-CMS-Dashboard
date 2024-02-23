@@ -46,7 +46,8 @@
         <!-- radio button -->
         <div [ngClass]="radioGroupConfiguration.ngClass">
             <div *ngFor="let button of radioGroupConfiguration.radioButtons" [ngClass]="button.ngClass">
-                <p-radioButton [inputId]="button.label" [value]="button.value" [formControlName]="input.key" (ngModelChange)="input.onChange?.($event)"/>
+                <p-radioButton [inputId]="button.label" [value]="button.value" [formControlName]="input.key"
+                    (ngModelChange)="input.onChange?.($event)" />
                 <label [for]="button.label" class="ml-2">{{ button.label | translate }}</label>
             </div>
         </div>
@@ -60,11 +61,11 @@
             [prefix]="input.numberConfiguration?.prefix" [mode]="input.numberConfiguration?.mode ?? 'decimal'"
             locale="en-US" [currency]="input.numberConfiguration?.currency ?? 'USD'"
             [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }" />
-        } @else if (input.inputType == types.date || input.inputType == types.time) {
+        } @else if ([types.date, types.time, types.datetime].includes(input.inputType)) {
         <!-- date/time -->
         <p-calendar [formControlName]="input.key" [timeOnly]="input.inputType === types.time" [iconDisplay]="'input'"
             [showIcon]="true" [inputId]="input.key" [dateFormat]="input.calendarConfiguration?.dateFormat"
-            [inputId]="input.key"
+            [inputId]="input.key" [showTime]="input.inputType === types.datetime"
             [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }" />
         } @else if (input.inputType == types.dropdown && input.dropdownConfiguration) {
         <!-- dropdown -->

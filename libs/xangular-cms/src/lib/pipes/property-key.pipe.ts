@@ -8,7 +8,11 @@ export class PropertyKeyPipe implements PipeTransform {
       if (propKey.includes('.')) {
         const array = propKey.split('.');
         for (let i = 0; i < array.length; i++) {
-          prop = prop[array[i]];
+          try {
+            prop = prop[array[i]];
+          } catch (_) { 
+            continue;
+          }
         }
         return prop;
       }

@@ -13,6 +13,15 @@ export class Result<T> {
         this.loading$ = new BehaviorSubject(props.loading ?? false);
         this.data$ = new BehaviorSubject(props.data);
     }
+
+    public setData(data: T): void {
+        this.data$.next(data);
+        this.loading$.next(false);
+    }
+
+    public setLoading(loading: boolean): void {
+        this.loading$.next(loading);
+    }
 }
 
 export class LoadingResult<T> extends Result<T> {

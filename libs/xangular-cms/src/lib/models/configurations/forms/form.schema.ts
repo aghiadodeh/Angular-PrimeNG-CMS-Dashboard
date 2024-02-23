@@ -79,6 +79,7 @@ export enum FormInputType {
     triStateCheckbox = 'triStateCheckbox',
     radio = 'radio',
     time = 'time',
+    datetime = 'datetime',
     color = 'color',
     dropdown = 'dropdown',
     autocomplete = 'autocomplete',
