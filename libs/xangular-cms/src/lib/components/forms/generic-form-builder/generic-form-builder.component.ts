@@ -52,6 +52,9 @@ export class GenericFormBuilderComponent<T> extends DestroyedComponent implement
   public types = FormInputType;
   public formGroup!: FormGroup;
 
+  public minDate = new Date(1900, 1, 1);
+  public maxDate = new Date(2100, 1, 1);
+
   constructor(private cdk: ChangeDetectorRef) {
     super();
   }

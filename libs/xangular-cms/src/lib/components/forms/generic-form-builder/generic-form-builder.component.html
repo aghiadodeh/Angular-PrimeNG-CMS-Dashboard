@@ -21,27 +21,32 @@
         <!-- upload file -->
         <cms-upload-file class="w-full" [configuration]="input.fileConfiguration"
             (filesChanged)="filesChanged(input, $event)" />
-        } @else if (input.inputType == types.text || input.inputType == types.email) {
+        }
+        @else if (input.inputType == types.text || input.inputType == types.email) {
         <!-- text/email -->
         <input [type]="input.inputType" pInputText [formControlName]="input.key"
             [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }"
             (ngModelChange)="input.onChange?.($event)" />
-        } @else if (input.inputType == types.password) {
+        }
+        @else if (input.inputType == types.password) {
         <!-- password -->
         <p-password [formControlName]="input.key" [feedback]="false" [inputId]="input.key"
             [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }"
             [toggleMask]="input.disabled !== true || (input.disabled$ | async) ?? true"
             (ngModelChange)="input.onChange?.($event)" />
-        } @else if (input.inputType == types.checkbox) {
+        }
+        @else if (input.inputType == types.checkbox) {
         <!-- checkbox -->
         <p-checkbox [formControlName]="input.key" label="{{ input.label | translate }}" [inputId]="input.key"
             [value]="input.value" [binary]="true" [trueValue]="true" [falseValue]="false"
             (onChange)="checkBoxChanged(input, $event)" />
-        } @else if (input.inputType == types.triStateCheckbox) {
+        }
+        @else if (input.inputType == types.triStateCheckbox) {
         <!-- three state checkbox true/false/null -->
         <p-triStateCheckbox [formControlName]="input.key" label="{{ input.label | translate }}" [inputId]="input.key"
             (onChange)="triStateCheckboxChanged(input, $event)" />
-        } @else if (input.inputType == types.radio) {
+        }
+        @else if (input.inputType == types.radio) {
         @if (input.radioGroupConfiguration; as radioGroupConfiguration) {
         <!-- radio button -->
         <div [ngClass]="radioGroupConfiguration.ngClass">
@@ -52,34 +57,42 @@
             </div>
         </div>
         }
-        } @else if (input.inputType == types.color) {
+        }
+        @else if (input.inputType == types.color) {
         <!-- color picker -->
         <p-colorPicker [formControlName]="input.key" appendTo="body" [inputId]="input.key" />
-        } @else if (input.inputType == types.number) {
+        }
+        @else if (input.inputType == types.number) {
         <!-- number -->
         <p-inputNumber [inputId]="input.key" [formControlName]="input.key" [suffix]="input.numberConfiguration?.suffix"
             [prefix]="input.numberConfiguration?.prefix" [mode]="input.numberConfiguration?.mode ?? 'decimal'"
             locale="en-US" [currency]="input.numberConfiguration?.currency ?? 'USD'"
             [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }" />
-        } @else if ([types.date, types.time, types.datetime].includes(input.inputType)) {
+        } 
+        @else if ([types.date, types.time, types.datetime].includes(input.inputType)) {
         <!-- date/time -->
         <p-calendar [formControlName]="input.key" [timeOnly]="input.inputType === types.time" [iconDisplay]="'input'"
             [showIcon]="true" [inputId]="input.key" [dateFormat]="input.calendarConfiguration?.dateFormat"
             [inputId]="input.key" [showTime]="input.inputType === types.datetime"
+            [minDate]="(input.calendarConfiguration?.minDate$ | async) ?? input.calendarConfiguration?.minDate ?? minDate"
+            [maxDate]="(input.calendarConfiguration?.maxDate$ | async) ?? input.calendarConfiguration?.maxDate ?? maxDate"
             [ngClass]="{ 'ng-dirty': formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched }" />
-        } @else if (input.inputType == types.dropdown && input.dropdownConfiguration) {
+        } 
+        @else if (input.inputType == types.dropdown && input.dropdownConfiguration) {
         <!-- dropdown -->
         <cms-generic-dropdown class="flex w-full" [configuration]="input.dropdownConfiguration"
             [disabled]="(input.disabled ?? false) || (input.disabled$ | async)"
             [invalid]="formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched"
             (valueChange)="dropdownValueChanged(input, $event)" />
-        } @else if (input.inputType == types.multiSelect && input.mutliSelectConfiguration) {
+        } 
+        @else if (input.inputType == types.multiSelect && input.mutliSelectConfiguration) {
         <!-- multi-select -->
         <cms-generic-multi-select class="flex w-full" [configuration]="input.mutliSelectConfiguration"
             [disabled]="(input.disabled ?? false) || (input.disabled$ | async)"
             [invalid]="formGroup.controls[input.key].invalid && formGroup.controls[input.key].touched"
             (valueChange)="dropdownValueChanged(input, $event)" />
-        } @else if (input.inputType == types.autocomplete && input.autoCompleteConfiguration) {
+        } 
+        @else if (input.inputType == types.autocomplete && input.autoCompleteConfiguration) {
         <!-- auto-complete -->
         <cms-generic-auto-complete class="flex w-full" [configuration]="input.autoCompleteConfiguration"
             [disabled]="(input.disabled ?? false) || (input.disabled$ | async)"

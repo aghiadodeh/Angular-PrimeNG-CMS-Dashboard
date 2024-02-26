@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable, finalize } from "rxjs";
 
 @Injectable()
 export class ProductService extends CmsService<Product> {
+    private calendar$ = new BehaviorSubject<Date>(new Date(2100, 1, 1));
     private categoryDisabled = new BehaviorSubject(true);
 
     constructor(private datePipe: DatePipe) {
@@ -94,6 +95,7 @@ export class ProductService extends CmsService<Product> {
                     options: [],
                     onChange: (value: any) => {
                         this.categoryDisabled.next(value == null);
+                        this.calendar$.next(new Date());
                     },
                     remoteDataConfiguration: {
                         endPoint: 'products/brands',
@@ -126,6 +128,14 @@ export class ProductService extends CmsService<Product> {
                 key: 'price_greater',
                 label: 'price_greater',
                 inputType: FilterInputType.number,
+            },
+            {
+                key: 'createdAt',
+                label: 'Created At',
+                inputType: FilterInputType.datetime,
+                calendarConfiguration: {
+                    maxDate$: this.calendar$,
+                }
             },
         ],
         filterDto: defaultFilterDto

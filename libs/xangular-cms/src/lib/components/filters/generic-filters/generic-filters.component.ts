@@ -1,14 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FilterInput, FilterInputType, FilterSchema } from '../../../models/configurations/filters/filter.schema';
 import { CalendarModule } from 'primeng/calendar';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { GenericDropdownComponent } from '../../forms/generic-dropdown/generic-dropdown.component';
 import { GenericMultiSelectComponent } from '../../forms/generic-multi-select/generic-multi-select.component';
 import moment from 'moment-timezone';
+import { DestroyedComponent } from '../../common/destroyed/destroyed.component';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'cms-generic-filters',
@@ -16,6 +18,7 @@ import moment from 'moment-timezone';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     TranslateModule,
     CalendarModule,
     InputTextModule,
@@ -26,9 +29,28 @@ import moment from 'moment-timezone';
   templateUrl: './generic-filters.component.html',
   styleUrl: './generic-filters.component.scss',
 })
-export class GenericFiltersComponent {
+export class GenericFiltersComponent extends DestroyedComponent implements OnInit {
   @Input() filterSchema!: FilterSchema;
   public types = FilterInputType;
+  public minDate = new Date(1900, 1, 1);
+  public maxDate = new Date(2100, 1, 1);
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.subscribeValueChanges();
+  }
+
+  private subscribeValueChanges(): void {
+    const inputs = this.filterSchema.inputs.filter(e => {
+      return e.value$ != undefined && [this.types.multiSelect, this.types.dropdown].includes(e.inputType);
+    });
+    for (const input of inputs) {
+      const { value$ } = input;
+      value$?.pipe(takeUntil(this.destroyed)).subscribe((value: any) => {
+        input.value = value;
+      });
+    }
+  }
 
   public getFilters(): { [key: string]: any } {
     const array = this.filterSchema.inputs
@@ -49,7 +71,7 @@ export class GenericFiltersComponent {
             value = input.value;
         }
         if (input.value instanceof Date) {
-          value = moment(input.value).utcOffset(0, true).format(); 
+          value = moment(input.value).utcOffset(0, true).format();
         }
         return { [input.key]: value }
       });

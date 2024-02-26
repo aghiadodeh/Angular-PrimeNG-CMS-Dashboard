@@ -106,6 +106,10 @@ export interface RadioButtonConfiguration {
 
 export interface CalendarInputConfiguration {
     dateFormat?: string;
+    minDate?: Date;
+    maxDate?: Date;
+    minDate$?: BehaviorSubject<Date>;
+    maxDate$?: BehaviorSubject<Date>;
 }
 
 export interface Routes<T> {
