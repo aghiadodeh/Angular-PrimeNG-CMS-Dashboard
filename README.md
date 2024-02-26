@@ -80,7 +80,7 @@ export const appConfig: ApplicationConfig = {
   </body>
 </html>
 ```
-```json
+```jsonc
 // angular.json
 {
   "projects": {
@@ -526,7 +526,7 @@ export class ProductsListComponent {
 ```
 ### Delete Action:
 You only should decalre in your translate json file these keys:
-```json
+```jsonc
 {
     "delete_confirmation": "Delete Confirmation",
     "delete_confirmation_message": "Do you want to delete this record?"
