@@ -7,6 +7,12 @@ Manage repetitive CRUDs Operations with a few lines depending on [PrimeNg](https
 ## Example:
 [Github](https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/tree/main/example)
 
+## Screenshots:
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img src="https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/blob/main/screenshots/Products.png?raw=true">|<img src="https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/blob/main/screenshots/Update_Product.png?raw=true">|<img src="https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/blob/main/screenshots/Delete_Products.png?raw=true">
+|<img src="https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/blob/main/screenshots/Users_Custom_View.png?raw=true">|<img src="https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/blob/main/screenshots/Users_Table.png?raw=true">|<img src="https://github.com/aghiadodeh/Angular-PrimeNG-CMS-Dashboard/blob/main/screenshots/Update_User.png?raw=true">
+
 ## Features:
 1. Generic Filters Builder
 2. Generic Form Builder
