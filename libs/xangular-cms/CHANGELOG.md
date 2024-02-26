@@ -13,5 +13,5 @@ fix null remoteDataConfiguration
 # 1.0.15
 open view item details screen in new tab
 
-# 1.0.19
+# 1.1.0
 add calendar configuration to filters and form-builder
