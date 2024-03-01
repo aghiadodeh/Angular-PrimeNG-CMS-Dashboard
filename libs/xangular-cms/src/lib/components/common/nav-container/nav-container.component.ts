@@ -25,6 +25,7 @@ export enum SidebarEvent {
   styleUrl: './nav-container.component.scss',
 })
 export class NavContainerComponent implements OnInit {
+  @Input() logo?: string;
   @Input() navigationItems: NavigationItem[] = [];
   @ViewChild('sidebar', { static: false }) sidebar?: Sidebar;
   public sidebarVisible: boolean = false;
