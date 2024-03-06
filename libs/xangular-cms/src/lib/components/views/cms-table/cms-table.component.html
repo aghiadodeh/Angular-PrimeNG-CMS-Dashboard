@@ -13,7 +13,7 @@
     @if (cmsService.crudConfiguration; as crudConfiguration) {
     @if (crudConfiguration.tableConfiguration; as tableConfiguration) {
     @if (cmsService.result$ | async; as result) {
-    <p-table styleClass="p-datatable-striped" [customSort]="true" [value]="result.data" 
+    <p-table styleClass="p-datatable-striped" [customSort]="true" [value]="result.data" [scrollable]="true" scrollHeight="flex"
         [dataKey]="tableConfiguration.dataKey" [(selection)]="selectedItems" (sortFunction)="customSort($event)">
         <!-- [tableStyle]="{ 'min-width': '20rem' }" -->
         <!-- table header -->

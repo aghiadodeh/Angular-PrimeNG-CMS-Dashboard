@@ -1,4 +1,4 @@
-<div class="cms-container flex flex-column f-height">
+<div class="cms-container flex flex-column f-height overflow-y-hidden">
     @if (cmsService.loading$ | async) {
     <!-- loading -->
     <p-progressBar mode="indeterminate" [style]="{'height': '2.5px'}" />
@@ -19,9 +19,9 @@
     <!-- dynamic header -->
     <ng-content select="[header]"></ng-content>
 
-    <div class="flex-auto overflow-y-auto">
+    <div class="flex flex-column flex-auto overflow-y-hidden">
         <!-- custom cms layout -->
-        <div #customLayout>
+        <div #customLayout class="flex overflow-y-hidden">
             <ng-content select="[custom]"></ng-content>
         </div>
 

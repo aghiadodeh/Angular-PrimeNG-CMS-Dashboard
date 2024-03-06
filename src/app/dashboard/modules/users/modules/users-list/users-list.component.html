@@ -23,9 +23,9 @@
         </div>
 
         @if (customViewChecked) {
-        <div class="flex flex-column pb-3" custom>
+        <div class="flex flex-column overflow-y-hidden pb-3" custom>
             <div
-                class="flex flex-wrap w-full gap-3 justify-content-center align-items-center fadein animation-duration-500">
+                class="flex flex-wrap w-full gap-3 overflow-y-auto justify-content-center align-items-center fadein animation-duration-500">
                 @if (userService.result$ | async; as result) {
                 @for (user of result.data; track user.id) {
                 <div class="custom-user-card w-full">

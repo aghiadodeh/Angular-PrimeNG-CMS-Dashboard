@@ -2,7 +2,7 @@ html,
 body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 * {
@@ -23,7 +23,7 @@ body {
 }
 
 .f-height {
-    height: calc(100vh - 62px);
+    height: calc(100vh - 65px);
     overflow-y: auto;
 }
 
@@ -69,6 +69,12 @@ cms-filters {
     .p-accordion p-accordiontab .p-accordion-tab {
         margin-bottom: 0 !important;
     }
+}
+
+cms-table {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
 }
 
 @media only screen and (max-width: 768px) {
