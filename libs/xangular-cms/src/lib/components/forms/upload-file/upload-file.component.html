@@ -1,6 +1,19 @@
-<p-fileUpload #fileUpload [mode]="mode" chooseLabel="{{ configuration.label | translate }}" [showCancelButton]="false"
-    [showUploadButton]="false" [multiple]="configuration.multiple" [accept]="configuration.accept" [disabled]="loading ?? false"
-    [styleClass]="styleClass ?? configuration.styleClass" [fileLimit]="configuration.maxCount"
-    [auto]="configuration.auto ?? auto" [maxFileSize]="configuration.maxFileSize" (onSelect)="onSelect()"
-    (onRemove)="onRemove()" [chooseIcon]="loading ? 'pi pi-spin pi-spinner' : chooseIcon" [uploadIcon]="chooseIcon">
+<p-fileUpload
+  #fileUpload
+  [mode]="mode"
+  chooseLabel="{{ configuration.label | translate }}"
+  [showCancelButton]="false"
+  [showUploadButton]="false"
+  [multiple]="configuration.multiple"
+  [accept]="configuration.accept"
+  [disabled]="loading ?? false"
+  [styleClass]="styleClass ?? configuration.styleClass"
+  [fileLimit]="configuration.maxCount"
+  [auto]="configuration.auto ?? auto"
+  [maxFileSize]="configuration.maxFileSize"
+  (onSelect)="onSelect()"
+  (onRemove)="onRemove()"
+  [chooseIcon]="loading ? 'pi pi-spin pi-spinner' : chooseIcon"
+  [uploadIcon]="chooseIcon"
+>
 </p-fileUpload>

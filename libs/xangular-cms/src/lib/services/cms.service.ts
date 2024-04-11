@@ -1,30 +1,28 @@
-import { EventEmitter, Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, finalize, map, of } from 'rxjs';
-import { FilterSchema, defaultFilterDto } from '../models/configurations/filters/filter.schema';
-import { CacheBucket, HttpCacheManager, withCache } from '@ngneat/cashew';
-import { FormSchema } from '../models/configurations/forms/form.schema';
-import { HttpContext } from '@angular/common/http';
-import { ConfirmationService, PrimeNGConfig } from 'primeng/api';
-import { CRUDConfiguration, EndPoints } from '../models/configurations/crud/crud.configuration';
-import { BaseCellEvent, BaseRowEvent, CmsActionEvent } from '../models/configurations/crud/actions.configuration';
-import { CMS_CONFIGURATION } from '../configurations/cms.configurations';
-import { CommonHttpService } from './http/common-http.service';
-import { ListResponse } from '../models/responses/list.response';
-import { FormGroup } from '@angular/forms';
+import { EventEmitter, Injectable, inject } from "@angular/core";
+import { BehaviorSubject, Observable, finalize, map, of } from "rxjs";
+import { FilterSchema, defaultFilterDto } from "../models/configurations/filters/filter.schema";
+import { withCache } from "@ngneat/cashew";
+import { FormSchema } from "../models/configurations/forms/form.schema";
+import { HttpContext } from "@angular/common/http";
+import { ConfirmationService, PrimeNGConfig } from "primeng/api";
+import { CRUDConfiguration, EndPoints } from "../models/configurations/crud/crud.configuration";
+import { BaseCellEvent, BaseRowEvent, CmsActionEvent } from "../models/configurations/crud/actions.configuration";
+import { CMS_CONFIGURATION } from "../models/configurations/crud/cms.configurations";
+import { CommonHttpService } from "./http/common-http.service";
+import { ListResponse } from "../models/responses/list.response";
+import { FormGroup } from "@angular/forms";
 
 @Injectable()
 export abstract class CmsService<T> extends CommonHttpService {
   protected primeNgConfig = inject(PrimeNGConfig);
   protected confirmationService = inject(ConfirmationService);
-  protected cacheManager = inject(HttpCacheManager);
-  protected cacheBucket = new CacheBucket();
   protected withCache: boolean = true;
 
   public get endPoints(): EndPoints<T> {
     return this.crudConfiguration.endPoints;
   }
 
-  private get httpContext(): HttpContext | undefined {
+  protected override get cacheContext(): HttpContext | undefined {
     if (this.withCache) {
       return withCache({
         bucket: this.cacheBucket,
@@ -34,10 +32,10 @@ export abstract class CmsService<T> extends CommonHttpService {
   }
 
   public get queryParams(): object {
-    return {
+    return this.mapFilters({
       ...this.queryParams$.value,
       ...this.filterSchema.filterDto,
-    };
+    });
   }
 
   constructor(baseUrl?: string) {
@@ -89,7 +87,7 @@ export abstract class CmsService<T> extends CommonHttpService {
   /**
    * @description observable data-holder for last fetched data.
    */
-  public result$: BehaviorSubject<ListResponse<T>> = new BehaviorSubject<ListResponse<T>>({ data: [], total: 0 })
+  public result$: BehaviorSubject<ListResponse<T>> = new BehaviorSubject<ListResponse<T>>({ data: [], total: 0 });
 
   /**
    * @description event emitter to call fetch-data method,
@@ -98,16 +96,24 @@ export abstract class CmsService<T> extends CommonHttpService {
   public refetchData$: EventEmitter<void> = new EventEmitter<void>();
 
   /**
-   * @description event emitter to reset all filters and re-fetch data,
+   * @description event emitter to reset all old filters and re-fetch data with new filters,
    * emits could be from any component, events will be handled by cms-filters
    */
   public queryParams$: BehaviorSubject<{ [key: string]: any }> = new BehaviorSubject<{ [key: string]: any }>({});
 
   /**
-   * @description event emitter to reset all filters and re-fetch data,
+   * @description event emitter to apply cms-filters and re-fetch data,
    * emits could be from any component, events will be handled by cms-filters
    */
-  public resetFilters$: EventEmitter<void> = new EventEmitter<void>();
+  public applyFilters$: EventEmitter<void> = new EventEmitter<void>();
+
+  /**
+   * @description event emitter to reset all filters and re-fetch data,
+   * emits could be from any component, events will be handled by cms-filters
+   *
+   * emit true when you want clear filter inputs and re-fetch data, emit false when you want only clear filter inputs
+   */
+  public resetFilters$: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
    * @description used for some action should apply on multiple items,
@@ -126,7 +132,7 @@ export abstract class CmsService<T> extends CommonHttpService {
   public cellAction$: EventEmitter<BaseCellEvent<T>> = new EventEmitter();
 
   /**
-   * @description emit event for (create, import, export, delete mutliple rows)
+   * @description emit event for (create, import, export, delete multiple rows)
    */
   public cmsAction$: EventEmitter<CmsActionEvent> = new EventEmitter();
 
@@ -138,7 +144,7 @@ export abstract class CmsService<T> extends CommonHttpService {
   /**
    * @description view paginator in cms-list
    */
-  public viewCmsPaginatior$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  public viewCmsPaginator$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   /**
    * manage remote data before display
@@ -147,12 +153,14 @@ export abstract class CmsService<T> extends CommonHttpService {
    */
   public mapFetchedData: (data: T[]) => T[] = (data: T[]) => data;
 
+  public mapFilters: (queryParams: any) => any = (queryParams: any) => queryParams;
+
   public create<X>(data: X): Observable<T> {
     this.loading$.next(true);
     const { index, create } = this.endPoints;
     return this.post<T>(create ?? index, data).pipe(
       finalize(() => this.loading$.next(false)),
-      map(response => response.data),
+      map((response) => response.data),
     );
   }
 
@@ -163,7 +171,7 @@ export abstract class CmsService<T> extends CommonHttpService {
     const resourceName = update?.(id) ?? `${index}/${id}`;
     return this.patch<T>(resourceName, data).pipe(
       finalize(() => this.loading$.next(false)),
-      map(response => response.data),
+      map((response) => response.data),
     );
   }
 
@@ -172,10 +180,10 @@ export abstract class CmsService<T> extends CommonHttpService {
     const { index } = this.endPoints;
     return this.get<T[]>(index, {
       params: queryParams,
-      context: this.httpContext,
+      context: this.cacheContext,
     }).pipe(
       finalize(() => this.loading$.next(false)),
-      map(response => this.mapFetchedData(response.data)),
+      map((response) => this.mapFetchedData(response.data)),
     );
   }
 
@@ -184,10 +192,10 @@ export abstract class CmsService<T> extends CommonHttpService {
     const { index } = this.endPoints;
     return this.get<ListResponse<T>>(index, {
       params: queryParams,
-      context: this.httpContext,
+      context: this.cacheContext,
     }).pipe(
       finalize(() => this.loading$.next(false)),
-      map(response => {
+      map((response) => {
         let { data, total, metadata } = response.data;
         data = this.mapFetchedData(data);
         return { data, total, metadata };
@@ -195,21 +203,19 @@ export abstract class CmsService<T> extends CommonHttpService {
     );
   }
 
-  public findOne(id: any,): Observable<T> {
+  public findOne(id: any): Observable<T> {
     const { index, view } = this.endPoints;
     const resourceName = view?.(id) ?? `${index}/${id}`;
     return this.get<T>(resourceName, {
-      context: this.httpContext,
-    }).pipe(map(response => response.data));
+      context: this.cacheContext,
+    }).pipe(map((response) => response.data));
   }
 
   override delete(id: any): Observable<any> {
     this.loading$.next(true);
     const { index, remove } = this.endPoints;
     const resourceName = remove?.(id) ?? `${index}/${id}`;
-    return super.delete(resourceName).pipe(
-      finalize(() => this.loading$.next(false)),
-    );
+    return super.delete(resourceName).pipe(finalize(() => this.loading$.next(false)));
   }
 
   /**
@@ -228,7 +234,7 @@ export abstract class CmsService<T> extends CommonHttpService {
   public importFile(file: File): Observable<any> {
     const { importFile } = this.endPoints;
     if (!importFile) {
-      throw new Error('importFile endPoint is not definend, Check your endPoints');
+      throw new Error("importFile endPoint is not defined, Check your endPoints");
     }
     this.importing$.next(true);
     const { endPoint, requestBody } = this.endPoints.importFile!(file);
@@ -236,10 +242,10 @@ export abstract class CmsService<T> extends CommonHttpService {
       finalize(() => {
         this.importing$.next(false);
         this.messageService.add({
-          key: 'main-toast',
-          severity: 'success',
-          summary: 'Success',
-          detail: 'File Uploaded Successfully',
+          key: "main-toast",
+          severity: "success",
+          summary: "Success",
+          detail: "File Uploaded Successfully",
         });
       }),
     );
@@ -247,29 +253,27 @@ export abstract class CmsService<T> extends CommonHttpService {
 
   public deleteMultiple(): Observable<any> {
     if (!this.endPoints.removeMultiple) {
-      throw new Error('removeMultiple endPoint is not definend, Check your endPoints');
+      throw new Error("removeMultiple endPoint is not defined, Check your endPoints");
     }
     this.loading$.next(true);
     const { endPoint, requestBody } = this.endPoints.removeMultiple!(this.selectedItems$.value);
-    return super.post(endPoint, requestBody).pipe(
-      finalize(() => this.loading$.next(false)),
-    );
+    return super.post(endPoint, requestBody).pipe(finalize(() => this.loading$.next(false)));
   }
 
   public deleteConfirmation(accept: Function, length = 0): void {
     this.confirmationService.confirm({
-      key: 'main-confirm',
-      message: this.getTranslation(length == 0 ? 'delete_confirmation_message' : 'delete_multiple_confirmation_message'),
-      header: this.getTranslation('delete_confirmation'),
-      icon: 'pi pi-info-circle',
+      key: "main-confirm",
+      message: this.getTranslation(
+        length == 0 ? "delete_confirmation_message" : "delete_multiple_confirmation_message",
+      ),
+      header: this.getTranslation("delete_confirmation"),
+      icon: "pi pi-info-circle",
       acceptButtonStyleClass: "p-button-danger p-button-text",
       rejectButtonStyleClass: "p-button-text p-button-text",
+      acceptLabel: this.getTranslation("yes"),
+      rejectLabel: this.getTranslation("no"),
       accept,
     });
-  }
-
-  public invalidateCache(): void {
-    this.cacheManager.delete(this.cacheBucket);
   }
 
   public appendItem(item: T): void {
@@ -286,7 +290,7 @@ export abstract class CmsService<T> extends CommonHttpService {
       data[index] = item;
       this.result$.next({ data, total });
     }
-    return index != -1
+    return index != -1;
   }
 
   public removeItem(findIndex: (data: T[]) => number): boolean {
@@ -297,21 +301,23 @@ export abstract class CmsService<T> extends CommonHttpService {
       data.splice(index, 1);
       this.result$.next({ data, total: total - 1 });
     }
-    return index != -1
+    return index != -1;
   }
 
   public notifyFormErrors(formGroup: FormGroup): void {
     Object.keys(formGroup.controls).forEach((control: string) => {
       if (formGroup.controls[control].invalid) {
         const { errors } = formGroup.controls[control];
+        console.log(errors);
+
         if (errors) {
           const keys = Object.keys(errors);
-          const label = this.formSchema?.inputs().find(input => input.key == control)?.label;
+          const label = this.formSchema?.inputs().find((input) => input.key == control)?.label;
           const key = this.getTranslation(label ?? control);
           this.messageService.add({
-            key: 'main-toast',
-            severity: 'error',
-            summary: '',
+            key: "main-toast",
+            severity: "error",
+            summary: "",
             detail: keys.length > 0 ? `${key} ${this.getTranslation(keys[0])}` : `${key} NOT VALID`,
           });
         }

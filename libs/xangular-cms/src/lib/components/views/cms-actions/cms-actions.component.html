@@ -1,58 +1,112 @@
 @if (cmsService.crudConfiguration.actions; as actions) {
-<p-toolbar class="cms-actions-container" styleClass="gap-2">
+  <p-toolbar class="cms-actions-container" styleClass="gap-2">
     <ng-template pTemplate="start">
-        <!-- create new item -->
-        @if (actions.create | functionPipe) {
-        <button pButton pRipple label="{{ 'new' | translate }}" icon="pi pi-plus" class="p-button-primary mr-2"
-            (click)="cmsService.cmsAction$.emit({action: cmsActionEnum.create})"></button>
-        }
+      <!-- create new item -->
+      @if (actions.create | functionPipe) {
+        <button
+          pButton
+          pRipple
+          label="{{ 'new' | translate }}"
+          icon="pi pi-plus"
+          class="p-button-primary mr-2"
+          (click)="
+            cmsService.cmsAction$.emit({
+              action: cmsActionEnum.create
+            })
+          "
+        ></button>
+      }
 
-        <!-- delete selected items -->
-        @if ((actions.delete | functionPipe) && ((actions.import | functionPipe) || (actions.export | functionPipe))) {
+      <!-- delete selected items -->
+      @if ((actions.delete | functionPipe) && ((actions.import | functionPipe) || (actions.export | functionPipe))) {
         @if (cmsService.selectedItems$ | async; as selectedItems) {
-        <button pButton pRipple label="{{ 'delete' | translate }}" icon="pi pi-trash" class="p-button-danger"
-            (click)="cmsService.cmsAction$.emit({action: cmsActionEnum.deleteRows})"
-            [disabled]="selectedItems.length === 0"></button>
+          <button
+            pButton
+            pRipple
+            label="{{ 'delete' | translate }}"
+            icon="pi pi-trash"
+            class="p-button-danger"
+            (click)="
+              cmsService.cmsAction$.emit({
+                action: cmsActionEnum.deleteRows
+              })
+            "
+            [disabled]="selectedItems.length === 0"
+          ></button>
         }
-        }
+      }
 
-        <!-- custom-start-actions -->
-        <div class="cms-start-actions">
-            <ng-content select="[customStartActions]"></ng-content>
-        </div>
+      <!-- custom-start-actions -->
+      <div class="cms-start-actions">
+        <ng-content select="[customStartActions]"></ng-content>
+      </div>
     </ng-template>
 
     <ng-template pTemplate="end">
-        <!-- import data -->
-        @if (actions.import | functionPipe; as import) {
-        <cms-upload-file class="mr-2 inline-block" [configuration]="import" [mode]="'basic'" [auto]="true"
-            styleClass="p-button-success" chooseIcon="pi pi-upload" [loading]="cmsService.importing$ | async"
-            (filesChanged)="cmsService.cmsAction$.emit({action: cmsActionEnum.import, data: $event})" />
-        }
+      <!-- import data -->
+      @if (actions.import | functionPipe; as import) {
+        <cms-upload-file
+          class="mr-2 inline-block"
+          [configuration]="import"
+          [mode]="'basic'"
+          [auto]="true"
+          styleClass="p-button-success"
+          chooseIcon="pi pi-upload"
+          [loading]="cmsService.importing$ | async"
+          (filesChanged)="
+            cmsService.cmsAction$.emit({
+              action: cmsActionEnum.import,
+              data: $event
+            })
+          "
+        />
+      }
 
-        <!-- export data -->
-        @if (actions.export | functionPipe) {
+      <!-- export data -->
+      @if (actions.export | functionPipe) {
         @if (cmsService.selectedItems$ | async; as selectedItems) {
-        <button pButton pRipple label="{{ 'export' | translate }}" icon="pi pi-download" class="p-button-help"
-            [loading]="(cmsService.exporting$ | async) ?? false"
-            (click)="cmsService.cmsAction$.emit({action: cmsActionEnum.export})">
-        </button>
+          @if (cmsService.result$ | async; as result) {
+            <button
+              pButton
+              pRipple
+              label="{{ 'export' | translate }}"
+              icon="pi pi-download"
+              class="p-button-info"
+              [loading]="(cmsService.exporting$ | async) ?? false"
+              [disabled]="result.data.length === 0"
+              (click)="
+                cmsService.cmsAction$.emit({
+                  action: cmsActionEnum.export
+                })
+              "
+            ></button>
+          }
         }
-        }
+      }
 
-        <!-- delete selected items -->
-        @if ((actions.delete | functionPipe) && !((actions.import | functionPipe) || (actions.export | functionPipe))) {
+      <!-- delete selected items -->
+      @if ((actions.delete | functionPipe) && !((actions.import | functionPipe) || (actions.export | functionPipe))) {
         @if (cmsService.selectedItems$ | async; as selectedItems) {
-        <button pButton pRipple label="{{ 'delete' | translate }}" icon="pi pi-trash" class="p-button-danger"
-            (click)="cmsService.cmsAction$.emit({action: cmsActionEnum.deleteRows})"
-            [disabled]="selectedItems.length === 0"></button>
+          <button
+            pButton
+            pRipple
+            label="{{ 'delete' | translate }}"
+            icon="pi pi-trash"
+            class="p-button-danger"
+            (click)="
+              cmsService.cmsAction$.emit({
+                action: cmsActionEnum.deleteRows
+              })
+            "
+            [disabled]="selectedItems.length === 0"
+          ></button>
         }
-        }
+      }
 
-        <!-- custom-end-actions -->
-        <div class="cms-end-actions">
-            <ng-content select="[customEndActions]"></ng-content>
-        </div>
+      <!-- custom-end-actions -->
+      <div class="cms-end-actions">
+        <ng-content select="[customEndActions]"></ng-content>
+      </div>
     </ng-template>
-</p-toolbar>
+  </p-toolbar>
 }

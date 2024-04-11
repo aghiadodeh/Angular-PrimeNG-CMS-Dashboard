@@ -1,6 +1,6 @@
 {
   "name": "@x-angular/cms",
-  "version": "1.1.2",
+  "version": "1.1.6",
   "description": "Manage repetitive CRUDs (Create, Read, Update and Delete) Operations with a few lines depending on PrimeNG",
   "publishConfig": {
     "access": "public",

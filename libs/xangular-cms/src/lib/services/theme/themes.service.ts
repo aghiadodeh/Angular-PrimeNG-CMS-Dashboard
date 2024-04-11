@@ -1,10 +1,9 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { DOCUMENT } from "@angular/common";
+import { Inject, Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class ThemeService {
-
   constructor(@Inject(DOCUMENT) private document: Document) {
     this.setTheme();
   }
@@ -12,24 +11,30 @@ export class ThemeService {
   /**
    * emitter when theme changed by user
    */
-  public themeChange$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(localStorage.getItem('dark-theme') == 'true' || false);
-
+  public themeChange$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    localStorage.getItem("dark-theme") == "true" || false,
+  );
 
   public toggleTheme() {
     this.switchTheme(!this.themeChange$.value);
   }
 
   public switchTheme(theme: boolean) {
-    localStorage.setItem('dark-theme', theme.toString());
+    localStorage.setItem("dark-theme", theme.toString());
     this.themeChange$.next(theme);
     this.setTheme();
   }
 
   private setTheme() {
     const isDark = this.themeChange$.value;
-    const themeLink = this.document.getElementById('app-theme') as HTMLLinkElement;
+    const themeLink = this.document.getElementById("app-theme") as HTMLLinkElement;
+    const body = this.document.body;
     if (themeLink) {
-      themeLink.href = `lara-${isDark ? 'dark' : 'light'}.css`;
+      themeLink.href = `lara-${isDark ? "dark" : "light"}.css`;
+    }
+    if (body) {
+      if (isDark) body.classList.add("dark");
+      else body.classList.remove("dark");
     }
   }
 }

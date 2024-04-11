@@ -1,20 +1,24 @@
-<div class="cms-upload-image flex justify-content-center" [ngClass]="{'pointer' : !disabled}" [ngStyle]="{
-    'width': configuration.width ?? (configuration.type === 'circle' ? '100px' : '100%'),
-    'height': configuration.height ?? (configuration.type === 'circle' ? '100px' : '175px'),
-    'border-radius': configuration.type === 'circle' ? '50%': '12px',
-}" (click)="!disabled ? fileUpload.click() : {}">
-
-    @if (file || configuration.path) {
-        <img class="fadein animation-duration-500" alt="image" [src]="file ?? configuration.path">
-    } @else {
-        <div class="flex w-full h-full justify-content-center align-items-center">
-            <span class="pi pi-image"></span>
-        </div>
-    }
-    @if (!disabled && (file || configuration.path)) {
-    <div class="picker text-center py-2 text-xs" (click)="fileUpload.click()">
-        <span class="pi pi-camera"></span>
+<div
+  class="cms-upload-image flex justify-content-center"
+  [ngClass]="{ pointer: !disabled }"
+  [ngStyle]="{
+    width: configuration.width ?? (configuration.type === 'circle' ? '100px' : '100%'),
+    height: configuration.height ?? (configuration.type === 'circle' ? '100px' : '175px'),
+    'border-radius': configuration.type === 'circle' ? '50%' : '12px'
+  }"
+  (click)="!disabled ? fileUpload.click() : {}"
+>
+  @if (file || configuration.path) {
+    <img class="fadein" alt="image" [src]="file ?? configuration.path" />
+  } @else {
+    <div class="flex w-full h-full justify-content-center align-items-center">
+      <span class="pi pi-image"></span>
     </div>
-    }
-    <input type="file" class="file-input" accept="image/*" #fileUpload hidden (change)="onFileSelected($event)">
+  }
+  @if (!disabled && (file || configuration.path)) {
+    <div class="picker text-center py-2 text-xs" (click)="fileUpload.click()">
+      <span class="pi pi-camera"></span>
+    </div>
+  }
+  <input type="file" class="file-input" accept="image/*" #fileUpload hidden (change)="onFileSelected($event)" />
 </div>

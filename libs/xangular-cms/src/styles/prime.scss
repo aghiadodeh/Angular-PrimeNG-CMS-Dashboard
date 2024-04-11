@@ -3,156 +3,372 @@
 @import "primeicons/primeicons.css";
 
 :root {
-    --blue-500: #2196F3 !important;
-    --error-color: #d20000;
+  --border-radius: 12px;
 }
 
 p-password {
-    input,
-    .p-password {
-        width: 100%;
-    }
+  input,
+  .p-password {
+    width: 100%;
+  }
 }
 
 p-inputnumber {
-    span {
-        width: 100%;
+  span {
+    width: 100%;
+  }
+}
+
+p-chips {
+  .p-input-wrapper {
+    width: 100%;
+
+    ul {
+      width: 100%;
     }
+  }
 }
 
 .p-blockui {
-    p-progressBar {
-        width: 100%;
-    }
+  p-progressBar {
+    width: 100%;
+  }
 }
 
 .p-toolbar {
-    padding: 10px 14px !important;
-    border: unset !important;
-    border-radius: 0 !important;
+  padding: 10px 14px !important;
+  border: unset !important;
+  border-radius: 0 !important;
 }
 
 .rounded-icon-btn {
-    button {
-        padding: .65rem !important;
-    }
+  button {
+    padding: 0.65rem !important;
+  }
 }
 
 .full-w-btn {
-    p-button {
-        button {
-            display: block;
-            width: 100%;
-        }
+  p-button {
+    button {
+      width: 100%;
     }
+  }
+}
+
+.p-button:lang(ar) {
+  spinnericon {
+    margin-inline-end: 0.5rem;
+  }
 }
 
 .no-padding {
+  margin: 0 !important;
+  padding: 0 !important;
+
+  .p-divider,
+  .p-card .p-card-content,
+  .p-card .p-card-body {
     margin: 0 !important;
     padding: 0 !important;
-
-    .p-divider,
-    .p-card .p-card-content,
-    .p-card .p-card-body {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+  }
 }
 
 .no-y-padding {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+
+  .p-card .p-card-content,
+  .p-card .p-card-body {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-
-    .p-card .p-card-content,
-    .p-card .p-card-body {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
+  }
 }
 
 .no-radius {
-
-    .p-card {
-        border-radius: 0 !important;
-    }
+  .p-card {
+    border-radius: 0 !important;
+  }
 }
 
 .no-header-radius {
-    .p-accordion .p-accordion-header .p-accordion-header-link {
-        border-radius: 0 !important;
-    }
+  .p-accordion .p-accordion-header .p-accordion-header-link {
+    border-radius: 0 !important;
+  }
 }
 
 .p-progressBar-grey {
+  .p-progressbar-indeterminate .p-progressbar-value:before,
+  .p-progressbar-indeterminate .p-progressbar-value:after {
+    background-color: white !important;
+  }
 
-    .p-progressbar-indeterminate .p-progressbar-value:before,
-    .p-progressbar-indeterminate .p-progressbar-value:after {
-        background-color: white !important;
-    }
-
-    .p-progressbar {
-        background: gray !important;
-    }
+  .p-progressbar {
+    background: gray !important;
+  }
 }
 
 p-calendar {
-    .p-calendar {
-        width: 100%;
-    }
+  .p-calendar {
+    width: 100%;
+  }
 }
 
 p-dropdown {
-    .p-dropdown {
-        width: 100%;
-    }
+  .p-dropdown {
+    width: 100%;
+  }
 }
 
 p-multiselect {
-    .p-multiselect {
-        width: 100%;
-    }
+  .p-multiselect {
+    width: 100%;
+  }
 }
 
 p-autocomplete {
+  .p-autocomplete,
+  .p-autocomplete-multiple-container {
+    width: 100%;
 
-    .p-autocomplete,
-    .p-autocomplete-multiple-container {
-        width: 100%;
-
-        input {
-            width: 100%;
-        }
+    input {
+      width: 100%;
     }
+  }
 }
 
 p-image {
-    .p-image-preview-container {
-        width: 100%;
+  .p-image-preview-container {
+    width: 100%;
 
-        img {
-            object-fit: cover;
-        }
+    img {
+      object-fit: cover;
     }
+  }
 }
 
 p-avatar {
-    img {
-        object-fit: cover;
-    }
+  img {
+    object-fit: cover;
+  }
 }
 
 .p-fileupload-buttonbar {
-    justify-content: center;
-    display: flex;
+  justify-content: center;
+  display: flex;
 }
 
 .p-fileupload-row {
-    img {
-        border-radius: 6px;
-    }
+  img {
+    border-radius: 6px;
+  }
+}
+
+.cms-actions-container {
+  .p-button-icon:lang(ar) {
+    margin-left: 0.35rem;
+    margin-right: 0 !important;
+  }
+}
+
+p-sorticon:lang(ar) {
+  margin-right: 0.35rem;
+}
+
+.p-datatable {
+  width: 100%;
+
+  .p-datatable-thead > tr > th,
+  .p-datatable-tbody > tr > td {
+    text-align: center !important;
+  }
 }
 
 .p-datatable-wrapper {
-    min-width: 600px;
-    overflow-x: hidden !important;
+  min-width: 1200px;
+  overflow-x: hidden !important;
+}
+
+.p-checkbox-label:lang(ar) {
+  margin-inline-start: 0.5rem;
+}
+
+.p-dialog-mask:lang(ar) {
+  .p-dialog-content {
+    direction: rtl;
+  }
+
+  .p-button {
+    direction: ltr;
+  }
+
+  .p-button .p-button-icon-left {
+    margin-inline-end: 0.5rem !important;
+  }
+}
+
+.p-paginator:lang(ar) {
+  direction: ltr;
+
+  .p-dropdown .p-dropdown-label {
+    text-align: center;
+  }
+}
+
+.cms-generic-form-builder:lang(ar) {
+  :not(.tel) {
+    .prefix-inputGroup {
+      .p-inputgroup-addon:first-child {
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-left: unset !important;
+      }
+
+      .p-inputgroup {
+        input:last-child {
+          border-top-left-radius: var(--border-radius) !important;
+          border-bottom-left-radius: var(--border-radius) !important;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+    }
+  }
+
+  .tel .prefix-inputGroup {
+    direction: ltr;
+
+    .p-inputgroup-addon:lang(ar) {
+      border-right: unset !important;
+    }
+  }
+}
+
+.suffix-inputGroup {
+  .p-inputgroup input:first-child:lang(ar) {
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .p-inputgroup-addon:lang(ar) {
+    border-right: unset !important;
+  }
+
+  .p-inputgroup-addon:last-child:lang(ar) {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+    direction: ltr;
+  }
+}
+
+.p-inputwrapper-filled {
+  timesicon:lang(ar),
+  timescircleicon:lang(ar) {
+    position: relative;
+  }
+
+  .p-dropdown-clear-icon:lang(ar),
+  .p-multiselect-clear-icon:lang(ar) {
+    right: -5px !important;
+  }
+}
+
+.p-calendar-w-btn {
+  .p-inputtext:lang(ar) {
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .p-datepicker-trigger:lang(ar) {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+  }
+}
+
+.p-autocomplete {
+  .p-inputtext:lang(ar) {
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .p-autocomplete-dropdown:lang(ar) {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+  }
+}
+
+.p-datepicker-header {
+  direction: ltr;
+}
+
+.p-multiselect.p-multiselect-chip .p-multiselect-token .p-multiselect-token-icon:lang(ar) {
+  margin-left: 0 !important;
+  margin-right: 0.5rem;
+}
+
+.p-fileupload-files {
+  .p-fileupload-filename {
+    min-width: 125px;
+  }
+}
+
+.p-fileupload-buttonbar:lang(ar) {
+  .p-button .p-button-icon-left {
+    margin-right: 0 !important;
+    margin-left: 0.5rem;
+  }
+}
+
+.p-toast-message-content:lang(ar) {
+  direction: ltr;
+
+  .p-toast-message-text {
+    .p-toast-detail {
+      direction: rtl;
+    }
+  }
+}
+
+.p-steps .p-steps-item.p-highlight .p-steps-title {
+  color: var(--primary-color) !important;
+}
+
+.p-tabview-nav-content {
+  scrollbar-width: none !important;
+}
+
+.p-tabview-nav-container {
+  // tabView scrolling has a bug with arabic language
+  .p-tabview-nav-next {
+    display: none;
+  }
+
+  .p-tabview-nav-prev {
+    display: none;
+  }
+}
+
+.dark {
+  .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    color: white !important;
+  }
+
+  .p-tabview-nav-container {
+    background-color: var(--surface-50);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+  }
 }

@@ -1,0 +1,22 @@
+<!-- <button mat-button class="primary i18n" [matMenuTriggerFor]="languageMenu">
+  {{ translationService.default.label }}
+</button>
+
+<mat-menu id="language-menu" #languageMenu="matMenu">
+  <ng-container *ngFor="let language of translationService.availableLanguages">
+    <button mat-menu-item (click)="translationService.switchLanguage(language.value)">{{ language.label }}</button>
+  </ng-container>
+</mat-menu> -->
+<p-button [text]="true" (onClick)="op.toggle($event)">
+  {{ translationService.default.label }}
+</p-button>
+
+<p-overlayPanel #op>
+  <div class="flex flex-column justify-content-center align-items-center">
+    @for (language of translationService.availableLanguages; track language.value) {
+      <p-button [text]="true" (onClick)="op.hide(); translationService.switchLanguage(language.value)">
+        {{ language.label }}
+      </p-button>
+    }
+  </div>
+</p-overlayPanel>

@@ -1,18 +1,17 @@
 .cms-table {
-
-    p-table {
-        width: 100%;
-        overflow-x: auto;
-        margin: 0 1px;
-    }
+  p-table {
+    width: 100%;
+    overflow-x: auto;
+    margin: 0 1px;
+  }
 }
 
 @media only screen and (max-width: 1200px) {
-    .cms-table {
-
-        p-table {
-            width: 100vw;
-            display: flex;
-        }
+  .cms-table {
+    p-table {
+      width: 100vw;
+      max-width: 1200px;
+      display: flex;
     }
+  }
 }

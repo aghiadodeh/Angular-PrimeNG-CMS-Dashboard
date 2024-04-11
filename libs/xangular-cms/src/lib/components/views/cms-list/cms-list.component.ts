@@ -1,28 +1,28 @@
-import { Component, Input, OnDestroy, OnInit, TemplateRef, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CmsService } from '../../../services/cms.service';
-import { finalize, skip, takeUntil } from 'rxjs';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { ButtonModule } from 'primeng/button';
-import { CRUDConfiguration } from '../../../models/configurations/crud/crud.configuration';
-import { CmsFiltersComponent } from '../../filters/cms-filters/cms-filters.component';
-import { CmsTableComponent } from '../cms-table/cms-table.component';
-import { ToolbarModule } from 'primeng/toolbar';
-import { FileUploadModule } from 'primeng/fileupload';
-import { TranslateModule } from '@ngx-translate/core';
-import { PaginatorState, PaginatorModule } from 'primeng/paginator';
-import { BaseRowEvent, CmsActionEnum, CmsActionEvent } from '../../../models/configurations/crud/actions.configuration';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { CmsDialogCreateComponent } from '../../dialogs/cms-dialog-create/cms-dialog-create.component';
-import { CmsDialogUpdateComponent } from '../../dialogs/cms-dialog-update/cms-dialog-update.component';
-import { CMS_CONFIGURATION } from '../../../configurations/cms.configurations';
-import { DestroyedComponent } from '../../common/destroyed/destroyed.component';
-import { ListResponse } from '../../../models/responses/list.response';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { CmsService } from "../../../services/cms.service";
+import { finalize, skip, takeUntil } from "rxjs";
+import { ProgressBarModule } from "primeng/progressbar";
+import { ButtonModule } from "primeng/button";
+import { CRUDConfiguration } from "../../../models/configurations/crud/crud.configuration";
+import { CmsFiltersComponent } from "../../filters/cms-filters/cms-filters.component";
+import { CmsTableComponent } from "../cms-table/cms-table.component";
+import { ToolbarModule } from "primeng/toolbar";
+import { FileUploadModule } from "primeng/fileupload";
+import { TranslateModule } from "@ngx-translate/core";
+import { PaginatorState, PaginatorModule } from "primeng/paginator";
+import { BaseRowEvent, CmsActionEnum, CmsActionEvent } from "../../../models/configurations/crud/actions.configuration";
+import { ActivatedRoute, Router } from "@angular/router";
+import { PrimeNGConfig } from "primeng/api";
+import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
+import { CmsDialogCreateComponent } from "../../dialogs/cms-dialog-create/cms-dialog-create.component";
+import { CmsDialogUpdateComponent } from "../../dialogs/cms-dialog-update/cms-dialog-update.component";
+import { CMS_CONFIGURATION } from "../../../models/configurations/crud/cms.configurations";
+import { DestroyedComponent } from "../../common/destroyed/destroyed.component";
+import { ListResponse } from "../../../models/responses/list.response";
 
 @Component({
-  selector: 'cms-list',
+  selector: "cms-list",
   standalone: true,
   imports: [
     TranslateModule,
@@ -35,11 +35,9 @@ import { ListResponse } from '../../../models/responses/list.response';
     CmsTableComponent,
     CmsFiltersComponent,
   ],
-  templateUrl: './cms-list.component.html',
-  styleUrl: './cms-list.component.scss',
-  providers: [
-    DialogService,
-  ],
+  templateUrl: "./cms-list.component.html",
+  styleUrl: "./cms-list.component.scss",
+  providers: [DialogService],
 })
 export class CmsListComponent<T> extends DestroyedComponent implements OnInit, OnDestroy {
   @Input() public templates: { [key: string]: TemplateRef<any> } = {};
@@ -111,13 +109,13 @@ export class CmsListComponent<T> extends DestroyedComponent implements OnInit, O
       this.cmsService.findAllWithPagination(this.cmsService.queryParams).subscribe({
         next: (result: ListResponse<T>) => {
           this.cmsService.result$.next(result);
-        }
+        },
       });
     } else {
       this.cmsService.findAll(this.cmsService.queryParams).subscribe({
         next: (result: T[]) => {
           this.cmsService.result$.next({ data: result, total: result.length });
-        }
+        },
       });
     }
   }
@@ -182,10 +180,17 @@ export class CmsListComponent<T> extends DestroyedComponent implements OnInit, O
    */
   public id(item: T): any {
     const { tableConfiguration } = this.cmsService.crudConfiguration;
-    const { dataKey } = tableConfiguration ?? {}
+    const { dataKey } = tableConfiguration ?? {};
     if (dataKey && item[dataKey]) return item[dataKey];
 
-    return item['_id'] ?? item["id"];
+    return item["_id"] ?? item["id"];
+  }
+
+  public relativeTo(): ActivatedRoute | null | undefined {
+    const relativeTo = this.cmsService.formSchema?.routes?.relativeTo;
+    if (relativeTo == false) return undefined;
+
+    return this.activatedRoute;
   }
 
   /**
@@ -194,19 +199,21 @@ export class CmsListComponent<T> extends DestroyedComponent implements OnInit, O
   public newItem(): void {
     const { formSchema, crudConfiguration } = this.cmsService;
     const { openFormType } = crudConfiguration;
-    if (openFormType == 'page') {
+    if (openFormType == "page") {
       // navigate to create page
-      const url = this.cmsService.formSchema?.routes?.create ?? 'new';
-      this.router.navigate([url], { relativeTo: this.activatedRoute });
-    } else if (openFormType == 'dialog') {
+      const url = this.cmsService.formSchema?.routes?.create ?? "new";
+      this.router.navigate([url], { relativeTo: this.relativeTo() });
+    } else if (openFormType == "dialog") {
       // open create dialog
       const title = formSchema?.title?.();
       this.ref = this.dialogService.open(CmsDialogCreateComponent<T>, {
-        header: title ? this.primeNGConfig.getTranslation(title) : undefined,
+        header: title,
+        modal: true,
+        dismissableMask: true,
         ...this.CMS_CONFIGURATION.DIALOG_CONFIGURATION,
       });
       this.ref.onClose.subscribe((result: T | undefined) => {
-        if (result) {
+        if (result && this.cmsService.fetchDataOnInitialize != false) {
           this.refreshData();
         }
       });
@@ -219,32 +226,33 @@ export class CmsListComponent<T> extends DestroyedComponent implements OnInit, O
   public viewItem(item: T, newTab: boolean): void {
     const url = this.cmsService.viewDetailsRoute?.(item) ?? `view/${this.id(item)}`;
     if (newTab) {
-      window.open(`${window.location.href}/${url}`, '_blank');
+      window.open(`${window.location.href}/${url}`, "_blank");
     } else {
-      this.router.navigate([url], { relativeTo: this.activatedRoute });
+      this.router.navigate([url], { relativeTo: this.relativeTo() });
     }
   }
 
   public updateItem(item: T): void {
     const { crudConfiguration, formSchema } = this.cmsService;
-    if (!formSchema) return;
-
     const { openFormType } = crudConfiguration;
-    if (openFormType == 'page') {
+
+    if (openFormType == "page") {
       // navigate to update page
-      const url = formSchema.routes?.update?.(item) ?? `update/${this.id(item)}`;
-      this.router.navigate([url], { relativeTo: this.activatedRoute });
-    } else if (openFormType == 'dialog') {
+      const url = formSchema?.routes?.update?.(item) ?? `update/${this.id(item)}`;
+      this.router.navigate([url], { relativeTo: this.relativeTo() });
+    } else if (openFormType == "dialog") {
       // open update dialog
       const title = formSchema?.title?.(item);
       this.ref = this.dialogService.open(CmsDialogUpdateComponent<T>, {
         header: title,
+        modal: true,
+        dismissableMask: true,
         ...this.CMS_CONFIGURATION.DIALOG_CONFIGURATION,
         data: { item, id: this.id(item) },
       });
       this.ref.onClose.subscribe((result: T | undefined) => {
         if (result) {
-          this.cmsService.updateItem(result, (data) => data.findIndex(e => this.id(e) == this.id(item)));
+          this.cmsService.updateItem(result, (data) => data.findIndex((e) => this.id(e) == this.id(item)));
           this.cmsService.invalidateCache();
         }
       });
@@ -256,7 +264,7 @@ export class CmsListComponent<T> extends DestroyedComponent implements OnInit, O
       this.cmsService.delete(this.id(item)).subscribe({
         next: () => {
           this.refreshData();
-        }
+        },
       });
     });
   }
@@ -270,15 +278,16 @@ export class CmsListComponent<T> extends DestroyedComponent implements OnInit, O
       this.cmsService.deleteMultiple().subscribe({
         next: () => {
           this.refreshData();
-        }
+        },
       });
     }, value.length);
   }
 
   public exportFile(): void {
     const { exporting$ } = this.cmsService;
-    exporting$.next(true)
-    this.cmsService.exportFile()
+    exporting$.next(true);
+    this.cmsService
+      .exportFile()
       .pipe(finalize(() => exporting$.next(false)))
       .subscribe();
   }

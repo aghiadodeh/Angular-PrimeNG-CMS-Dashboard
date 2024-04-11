@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ImageConfiguration } from '../../../models/configurations/forms/file.configuration';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ImageConfiguration } from "../../../models/configurations/forms/file.configuration";
 
 @Component({
-  selector: 'cms-upload-image',
+  selector: "cms-upload-image",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './upload-image.component.html',
-  styleUrl: './upload-image.component.scss',
+  templateUrl: "./upload-image.component.html",
+  styleUrl: "./upload-image.component.scss",
 })
 export class UploadImageComponent {
   public file?: any;
@@ -23,7 +23,7 @@ export class UploadImageComponent {
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.file = reader.result;
-      }
+      };
     }
   }
 }

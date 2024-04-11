@@ -1,114 +1,162 @@
 <div class="cms-table flex flex-column card">
-    <!-- crud actions -->
-    @if (cmsService.crudConfiguration.actions && (cmsService.viewTableActions$ | async)) {
+  <!-- crud actions -->
+  @if (cmsService.crudConfiguration.actions && (cmsService.viewTableActions$ | async)) {
     <cms-actions>
-        <div customStartActions>
-            <ng-content select="[cmsStartActions]"></ng-content>
-        </div>
-        <div customEndActions>
-            <ng-content select="[cmsEndActions]"></ng-content>
-        </div>
+      <div customStartActions>
+        <ng-content select="[cmsStartActions]"></ng-content>
+      </div>
+      <div customEndActions>
+        <ng-content select="[cmsEndActions]"></ng-content>
+      </div>
     </cms-actions>
-    }
-    @if (cmsService.crudConfiguration; as crudConfiguration) {
+  }
+  @if (cmsService.crudConfiguration; as crudConfiguration) {
     @if (crudConfiguration.tableConfiguration; as tableConfiguration) {
-    @if (cmsService.result$ | async; as result) {
-    <p-table styleClass="p-datatable-striped" [customSort]="true" [value]="result.data" [scrollable]="true" scrollHeight="flex"
-        [dataKey]="tableConfiguration.dataKey" [(selection)]="selectedItems" (sortFunction)="customSort($event)">
-        <!-- [tableStyle]="{ 'min-width': '20rem' }" -->
-        <!-- table header -->
-        <ng-template pTemplate="header">
-            <tr>
+      @if (cmsService.result$ | async; as result) {
+        @if (cmsService.selectedItems$ | async; as selectedItems) {
+          <p-table
+            styleClass="p-datatable-striped"
+            [customSort]="true"
+            [value]="result.data"
+            [scrollable]="true"
+            scrollHeight="flex"
+            [dataKey]="tableConfiguration.dataKey"
+            [selection]="selectedItems"
+            (selectAllChange)="cmsService.selectedItems$.next(result.data)"
+            (selectionChange)="cmsService.selectedItems$.next($event)"
+            (sortFunction)="customSort($event)"
+          >
+            <!-- table header -->
+            <ng-template pTemplate="header">
+              <tr>
                 @if (crudConfiguration.actions?.selectRows | functionPipe) {
-                <!-- check box for all rows -->
-                <th style="width: 4rem">
+                  <!-- check box for all rows -->
+                  <th style="width: 4rem">
                     <p-tableHeaderCheckbox #tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
+                  </th>
                 }
                 @for (column of tableConfiguration.columns; track column.key) {
-                <!-- columns -->
-                <th pSortableColumn="{{column.sortKey}}">
+                  <!-- columns -->
+                  <th pSortableColumn="{{ column.sortKey }}">
                     <span class="header-title">{{ column.title | translate }}</span>
                     @if (column.sortKey) {
-                    <p-sortIcon field="{{column.sortKey}}" />
+                      <p-sortIcon field="{{ column.sortKey }}" />
                     }
-                </th>
+                  </th>
                 }
                 @if (actionsVisibility) {
-                <!-- actions -->
-                <th>
-                    {{ 'actions' | translate }}
-                </th>
+                  <!-- actions -->
+                  <th>
+                    {{ "actions" | translate }}
+                  </th>
                 }
-            </tr>
-        </ng-template>
-        <!-- table body -->
-        <ng-template pTemplate="body" let-item>
-            <tr>
+              </tr>
+            </ng-template>
+            <!-- table body -->
+            <ng-template pTemplate="body" let-item>
+              <tr>
                 @if (crudConfiguration.actions?.selectRows | functionPipe) {
-                <!-- check box -->
-                <td>
+                  <!-- check box -->
+                  <td>
                     <p-tableCheckbox [value]="item"></p-tableCheckbox>
-                </td>
+                  </td>
                 }
-
                 @for (column of tableConfiguration.columns; track column.key) {
-                <td [ngClass]="column.clickable ? 'pointer' : ''"
-                    (click)="column.clickable ? emitCellAction(column.key, item) : {}">
+                  <td
+                    [ngClass]="column.clickable ? 'pointer' : ''"
+                    (click)="column.clickable ? emitCellAction(column.key, item) : {}"
+                    class="td-{{ column.key }}"
+                  >
                     @if (column.templateRef == true && templates[column.key]) {
-                    <!-- template -->
-                    <ng-container *ngTemplateOutlet="templates[column.key]; context: {$implicit: item}" />
+                      <!-- template -->
+                      <ng-container *ngTemplateOutlet="templates[column.key]; context: { $implicit: item }" />
+                    } @else if (column.dateFormat) {
+                      <!-- date -->
+                      <span [ngStyle]="column.ngStyle ?? (column.ngStyleFn | functionPipe: item)">
+                        {{ item | propertyKey: column.key | date: column.dateFormat }}
+                      </span>
+                    } @else if (column.translate) {
+                      <!-- translate -->
+                      <span [ngStyle]="column.ngStyle ?? (column.ngStyleFn | functionPipe: item)">
+                        {{ item | propertyKey: column.key | translate }}
+                      </span>
                     } @else {
-                    <span [ngStyle]="column.ngStyle ?? (column.ngStyleFn | functionPipe:item)">
-                        {{ item | propertyKey:column.key }}
-                    </span>
+                      <!-- default -->
+                      <span [ngStyle]="column.ngStyle ?? (column.ngStyleFn | functionPipe: item)">
+                        @if (column.keyFn) {
+                          {{ column.keyFn | functionPipe: item }}
+                        } @else {
+                          {{ item | propertyKey: column.key }}
+                        }
+                      </span>
                     }
-                </td>
+                  </td>
                 }
                 <!-- actions -->
                 @if (actionsVisibility) {
-                @if (tableConfiguration.actions | functionPipe:item; as actions) {
-                @if (visibleActionsCount | functionPipe:actions; as visibleActionsCount) {
-                <td>
-                    @if (tableConfiguration.actionsDisplay == 'row' || visibleActionsCount < 3) { <!-- row actions -->
-                        <div class="flex gap-2">
+                  @if (tableConfiguration.actions | functionPipe: item; as actions) {
+                    @if (visibleActionsCount | functionPipe: actions; as visibleActionsCount) {
+                      <td>
+                        @if (tableConfiguration.actionsDisplay == "row" || visibleActionsCount < 3) {
+                          <!-- row actions -->
+                          <div class="flex justify-content-center gap-2">
                             @for (action of actions; track action.key) {
-                            <!-- check visiblity -->
-                            @if (action.visible != false && (action.visibleFn | functionPipe) != false) {
-                            <p-button size="small" [icon]="action.icon" [pTooltip]="action.label | translate"
-                                tooltipPosition="bottom" [severity]="action.severity" [rounded]="true"
-                                (onClick)="emitRowAction(action.key, item)" />
+                              <!-- check visibility -->
+                              @if (action.visible != false && (action.visibleFn | functionPipe) != false) {
+                                <p-button
+                                  size="small"
+                                  [icon]="action.icon"
+                                  [pTooltip]="action.label | translate"
+                                  tooltipPosition="bottom"
+                                  [severity]="action.severity"
+                                  [rounded]="true"
+                                  (onClick)="emitRowAction(action.key, item)"
+                                />
+                              }
                             }
-                            }
-                        </div>
+                          </div>
                         } @else {
-                        <!-- menu actions -->
-                        <div class="flex">
-                            <p-button size="small" icon="pi pi-ellipsis-v" [rounded]="true" [text]="true"
-                                (onClick)="op.toggle($event)" styleClass="text-color" />
-                        </div>
-                        <p-overlayPanel class="no-padding" #op>
+                          <!-- menu actions -->
+                          <div class="flex justify-content-center">
+                            <p-button
+                              size="small"
+                              icon="pi pi-ellipsis-v"
+                              [rounded]="true"
+                              [text]="true"
+                              (onClick)="op.toggle($event)"
+                              styleClass="text-color"
+                            />
+                          </div>
+                          <p-overlayPanel class="no-padding" #op>
                             <div class="flex flex-column gap-2">
-                                @for (action of actions; track action.key) {
-                                <!-- check visiblity -->
+                              @for (action of actions; track action.key) {
+                                <!-- check visibility -->
                                 @if (action.visible != false && (action.visibleFn | functionPipe) != false) {
-                                <p-button class="w-full" styleClass="w-full text-start" size="small"
-                                    [icon]="action.icon" [label]="action.label | translate" [severity]="action.severity"
-                                    [rounded]="true" [text]="true"
-                                    (onClick)="emitRowAction(action.key, item); op.hide()" />
+                                  <p-button
+                                    class="w-full"
+                                    styleClass="w-full text-start"
+                                    size="small"
+                                    [icon]="action.icon"
+                                    [label]="action.label | translate"
+                                    [severity]="action.severity"
+                                    [rounded]="true"
+                                    [text]="true"
+                                    (onClick)="emitRowAction(action.key, item); op.hide()"
+                                  />
                                 }
-                                }
+                              }
                             </div>
-                        </p-overlayPanel>
+                          </p-overlayPanel>
                         }
-                </td>
+                      </td>
+                    }
+                  }
                 }
-                }
-                }
-            </tr>
-        </ng-template>
-    </p-table>
+              </tr>
+            </ng-template>
+          </p-table>
+        }
+      }
     }
-    }
-    }
+  }
 </div>

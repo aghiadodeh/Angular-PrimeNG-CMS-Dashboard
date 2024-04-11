@@ -1,30 +1,30 @@
-import { Inject, Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Direction } from '@angular/cdk/bidi';
-import { DOCUMENT } from '@angular/common';
-import { PrimeNGConfig } from 'primeng/api';
+import { Inject, Injectable } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { BehaviorSubject, Observable } from "rxjs";
+import { Direction } from "@angular/cdk/bidi";
+import { DOCUMENT } from "@angular/common";
+import { PrimeNGConfig } from "primeng/api";
 
 export interface LanguageData {
-  value: string,
-  label: string
+  value: string;
+  label: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class TranslationService {
   /**
    * Supported languages
    * if you want add new language go to src\assets\i18n\
    * and add new `lang.json` file
    */
-  public availabeLanguages: LanguageData[] = [
+  public availableLanguages: LanguageData[] = [
     {
-      value: 'en',
-      label: 'English'
+      value: "en",
+      label: "English",
     },
     {
-      value: 'ar',
-      label: 'العربية'
+      value: "ar",
+      label: "العربية",
     },
   ];
 
@@ -32,35 +32,35 @@ export class TranslationService {
    * default app language
    */
   get defaultLanguage(): string {
-    return localStorage.getItem('langauge') || this.availabeLanguages[0].value;
+    return localStorage.getItem("language") || this.availableLanguages[0].value;
   }
 
   get default(): LanguageData {
-    return this.availabeLanguages.find(el => el.value == this.defaultLanguage) || this.availabeLanguages[0];
+    return this.availableLanguages.find((el) => el.value == this.defaultLanguage) || this.availableLanguages[0];
   }
 
   /**
    * emitter when language change by user
    */
-  public languageChange$: BehaviorSubject<String> = new BehaviorSubject<String>(this.defaultLanguage);
+  public languageChange$: BehaviorSubject<string> = new BehaviorSubject<string>(this.defaultLanguage);
 
   /**
    * change app direction `ltr` or `rtl`
    */
-  public langDir$: BehaviorSubject<Direction> = new BehaviorSubject<Direction>('ltr');
+  public langDir$: BehaviorSubject<Direction> = new BehaviorSubject<Direction>("ltr");
 
   constructor(
     private primeConfig: PrimeNGConfig,
     public translate: TranslateService,
     @Inject(DOCUMENT) private document: Document,
   ) {
-    translate.addLangs(['en', 'ar']);
+    translate.addLangs(["en", "ar"]);
     translate.setDefaultLang(this.defaultLanguage);
-    this.translate.getTranslation(this.defaultLanguage).subscribe(data => {
+    this.translate.getTranslation(this.defaultLanguage).subscribe((data) => {
       this.primeConfig.setTranslation(data);
     });
 
-    if (this.defaultLanguage == "ar") this.langDir$.next('rtl');
+    if (this.defaultLanguage == "ar") this.langDir$.next("rtl");
 
     this.document.documentElement.lang = this.defaultLanguage;
   }
@@ -72,10 +72,10 @@ export class TranslationService {
    */
   public switchLanguage(language: string) {
     // Change app language
-    localStorage.setItem('langauge', language)
+    localStorage.setItem("language", language);
     this.translate.use(language);
     this.languageChange$.next(language);
-    this.translate.getTranslation(language).subscribe(data => {
+    this.translate.getTranslation(language).subscribe((data) => {
       this.primeConfig.setTranslation(data);
     });
 
@@ -91,4 +91,3 @@ export class TranslationService {
     return this.translate.get(key);
   }
 }
-

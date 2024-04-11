@@ -1,35 +1,38 @@
 <div class="generic-form-update flex flex-column w-full justify-content-center align-items-center gap-2 p-3">
-    <!-- loading -->
-    @if (result.loading$ | async) {
+  <!-- loading -->
+  @if (result.loading$ | async) {
     <!-- custom loading -->
     <div #customLoading>
-        <ng-content select="[loading]"></ng-content>
+      <ng-content select="[loading]"></ng-content>
     </div>
 
     @if (customLoading?.children?.length == 0) {
-    <!-- progressBar -->
-    <p-progressBar mode="indeterminate" [style]="{'height': '2.5px'}" />
+      <!-- progressBar -->
+      <p-progressBar mode="indeterminate" [style]="{ height: '2.5px' }" />
     }
-    } @else {
-    @if (result.data$ | async; as data){
-    @if (cmsService.formSchema?.title | functionPipe:data; as title) {
-    <!-- title -->
-    <div class="w-full flex align-items-start">
-        <span class="text-900 font-medium text-3xl">{{ title | translate }}</span>
-    </div>
-    }
-    <!-- form builder -->
-    <cms-generic-form-builder class="w-full" [formSchema]="cmsService.formSchema!" [item]="data" />
+  } @else {
+    @if (result.data$ | async; as data) {
+      @if (cmsService.formSchema?.title | functionPipe: data; as title) {
+        <!-- title -->
+        <div class="w-full flex align-items-start">
+          <span class="text-900 font-medium text-3xl">{{ title | translate }}</span>
+        </div>
+      }
+      <!-- form builder -->
+      <cms-generic-form-builder class="w-full" [formSchema]="cmsService.formSchema!" [item]="data" />
 
-    <!-- submit -->
-    @if (submitButton) {
-    <p-divider class="w-full" />
-    <p-button [text]="true" [disabled]="(cmsService.loading$ | async) ?? false"
-        [loading]="(cmsService.loading$ | async) ?? false" (onClick)="submit()">
-        <span class="px-2">{{ 'submit' | translate }}</span>
-    </p-button>
+      <!-- submit -->
+      @if (submitButton) {
+        <p-divider class="w-full" />
+        <p-button
+          [text]="true"
+          [disabled]="(cmsService.loading$ | async) ?? false"
+          [loading]="(cmsService.loading$ | async) ?? false"
+          (onClick)="submit()"
+        >
+          <span class="px-2">{{ "submit" | translate }}</span>
+        </p-button>
+      }
     }
-    }
-    }
-
+  }
 </div>

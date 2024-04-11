@@ -60,8 +60,8 @@ export class UsersListComponent extends DestroyedComponent {
   }
 
   public togglePaginator(): void {
-    const { viewCmsPaginatior$ } = this.userService;
-    const { value } = viewCmsPaginatior$;
-    this.userService.viewCmsPaginatior$.next(!value);
+    const { viewCmsPaginator$ } = this.userService;
+    const { value } = viewCmsPaginator$;
+    this.userService.viewCmsPaginator$.next(!value);
   }
 }

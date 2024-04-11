@@ -1,30 +1,42 @@
 <div class="generic-dropdown w-full">
-    <p-dropdown [class]="'w-full' + (invalid ? ' ng-dirty ng-invalid' : '')" [options]="configuration.options"
-        [optionLabel]="configuration.optionLabel" [appendTo]="'body'" [filter]="configuration.filter ?? true"
-        [filterBy]="configuration.filterBy" [showClear]="configuration.showClear"
-        [disabled]="(disabled ?? false) || loading" [(ngModel)]="option"
-        [virtualScrollItemSize]="20" [virtualScrollOptions]="options" (onChange)="onChange($event)"
-        [dropdownIcon]="loading ? 'pi pi-spin pi-spinner' : 'pi pi-chevron-down'">
-        @if (configuration.template; as template) {
-        <!-- input selected item -->
-        <ng-template let-item pTemplate="selectedItem">
-            <div class="flex align-items-center" [ngClass]="template.ngClass">
-                @if (template.imageSrc) {
-                <img [src]="template.imageSrc | functionPipe:item">
-                }
-                <span>{{ item[configuration.optionLabel] }}</span>
-            </div>
-        </ng-template>
+  <p-dropdown
+    [class]="'w-full' + (invalid ? ' ng-dirty ng-invalid' : '')"
+    [options]="configuration.options"
+    [optionLabel]="configuration.optionLabel"
+    [filter]="configuration.filter ?? true"
+    [filterBy]="configuration.filterBy"
+    [showClear]="configuration.showClear"
+    [disabled]="(disabled ?? false) || loading"
+    [(ngModel)]="option"
+    [virtualScrollItemSize]="20"
+    [virtualScrollOptions]="options"
+    (onChange)="onChange($event)"
+    [dropdownIcon]="loading ? 'pi pi-spin pi-spinner' : 'pi pi-chevron-down'"
+    [placeholder]="placeHolder"
+    [emptyMessage]="'no_results_found' | translate"
+    [emptyFilterMessage]="'no_results_found' | translate"
+    appendTo="body"
+  >
+    @if (configuration.template; as template) {
+      <!-- input selected item -->
+      <ng-template let-item pTemplate="selectedItem">
+        <div class="flex align-items-center" [ngClass]="template.ngClass">
+          @if (template.imageSrc) {
+            <img [src]="template.imageSrc | functionPipe: item" />
+          }
+          <span>{{ item[configuration.optionLabel] }}</span>
+        </div>
+      </ng-template>
 
-        <!-- dropdown suggestion item -->
-        <ng-template let-item pTemplate="item">
-            <div class="flex align-items-center" [ngClass]="template.ngClass">
-                @if (template.imageSrc) {
-                <img [src]="template.imageSrc | functionPipe:item">
-                }
-                <span>{{ item[configuration.optionLabel] }}</span>
-            </div>
-        </ng-template>
-        }
-    </p-dropdown>
+      <!-- dropdown suggestion item -->
+      <ng-template let-item pTemplate="item">
+        <div class="flex align-items-center" [ngClass]="template.ngClass">
+          @if (template.imageSrc) {
+            <img [src]="template.imageSrc | functionPipe: item" />
+          }
+          <span>{{ item[configuration.optionLabel] }}</span>
+        </div>
+      </ng-template>
+    }
+  </p-dropdown>
 </div>

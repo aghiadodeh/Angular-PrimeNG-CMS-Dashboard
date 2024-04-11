@@ -1,5 +1,5 @@
 export interface ListResponse<T> {
-    data: T[];
-    total: number;
-    metadata?: any;
+  data: T[];
+  total: number;
+  metadata?: any;
 }

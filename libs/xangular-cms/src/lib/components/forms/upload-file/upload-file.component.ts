@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FileUploadModule, FileUpload } from 'primeng/fileupload';
-import { FileConfiguration } from '../../../models/configurations/forms/file.configuration';
-import { TranslateModule } from '@ngx-translate/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FileUploadModule, FileUpload } from "primeng/fileupload";
+import { FileConfiguration } from "../../../models/configurations/forms/file.configuration";
+import { TranslateModule } from "@ngx-translate/core";
 
 export interface UploadEvent {
   originalEvent: Event;
@@ -10,20 +10,16 @@ export interface UploadEvent {
 }
 
 @Component({
-  selector: 'cms-upload-file',
+  selector: "cms-upload-file",
   standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    FileUploadModule,
-  ],
-  templateUrl: './upload-file.component.html',
-  styleUrl: './upload-file.component.scss',
+  imports: [CommonModule, TranslateModule, FileUploadModule],
+  templateUrl: "./upload-file.component.html",
+  styleUrl: "./upload-file.component.scss",
 })
 export class UploadFileComponent {
-  @Input() mode: FileUpload['mode'] = 'advanced';
+  @Input() mode: FileUpload["mode"] = "advanced";
   @Input() configuration!: FileConfiguration;
-  @Input() styleClass?: FileUpload['styleClass'];
+  @Input() styleClass?: FileUpload["styleClass"];
   @Input() chooseIcon?: string;
   @Input() auto: boolean = false;
   @Input() loading: boolean | null = false;

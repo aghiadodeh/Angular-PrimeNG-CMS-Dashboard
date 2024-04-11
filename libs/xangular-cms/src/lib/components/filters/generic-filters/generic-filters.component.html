@@ -1,56 +1,81 @@
 <div class="generic-filters-container flex flex-column">
-    <ng-content select="[title]"></ng-content>
-    <div class="generic-filters-wrapper flex flex-column flex-wrap md:flex-row gap-3 
-                justify-content-start align-items-center">
-        <!-- inputs -->
-        @for (input of filterSchema.inputs; track input.key) {
-        <div class="generic-filters-item">
-            <label [for]="input.key" class="text-900 text-sm font-medium block mb-1">
-                {{ input.label | translate }}
-            </label>
-            @if (input.inputType == types.text || input.inputType == types.email) {
-            <!-- text/email -->
-            <input [type]="input.inputType" pInputText [(ngModel)]="input.value"
-                [disabled]="input.disabled ?? (input.disabled$ | async) ?? false" />
-            }
-            @else if (input.inputType == types.number) {
-            <!-- number -->
-            <p-inputNumber [inputId]="input.key" [(ngModel)]="input.value"
-                [disabled]="input.disabled ?? (input.disabled$ | async) ?? false" />
-            }
-            @else if (input.inputType == types.search) {
-            <!-- search -->
-            <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input type="text" pInputText [(ngModel)]="input.value"
-                    [disabled]="input.disabled ?? (input.disabled$ | async) ?? false" />
-            </span>
-            }
-            @else if ([types.date, types.time,types.datetime].includes(input.inputType)) {
-            <!-- date/time -->
-            <p-calendar [(ngModel)]="input.value" [timeOnly]="input.inputType === types.time" [iconDisplay]="'input'"
-                [showTime]="input.inputType === types.datetime" [showIcon]="true" [inputId]="input.key"
-                [disabled]="input.disabled ?? (input.disabled$ | async) ?? false"
-                [minDate]="(input.calendarConfiguration?.minDate$ | async) ?? input.calendarConfiguration?.minDate ?? minDate"
-                [maxDate]="(input.calendarConfiguration?.maxDate$ | async) ?? input.calendarConfiguration?.maxDate ?? maxDate" />
-            }
-            @else if (input.inputType == types.dropdown && input.dropdownConfiguration){
-            <!-- select -->
-            <cms-generic-dropdown class="flex w-full" [configuration]="input.dropdownConfiguration"
-                [(option)]="input.value" [disabled]="input.disabled ?? (input.disabled$ | async)" />
-            }
-            @else if (input.inputType == types.multiSelect && input.mutliSelectConfiguration){
-            <!-- multi-select -->
-            <cms-generic-multi-select class="flex w-full" [configuration]="input.mutliSelectConfiguration"
-                [(option)]="input.value" [disabled]="input.disabled ?? (input.disabled$ | async)" />
-            }
-            @else {
-            <span>
-                ({{ input.inputType }}) type not handled
-            </span>
-            }
-        </div>
+  <ng-content select="[title]"></ng-content>
+  <div
+    class="generic-filters-wrapper flex flex-column flex-wrap md:flex-row gap-3 justify-content-start align-items-center"
+  >
+    <!-- inputs -->
+    @for (input of filterSchema.inputs; track input.key) {
+      <div class="generic-filters-item">
+        <label [for]="input.key" class="text-900 text-sm font-medium block mb-1">
+          {{ input.label | translate }}
+        </label>
+        @if (input.inputType == types.text || input.inputType == types.email) {
+          <!-- text/email -->
+          <input
+            [type]="input.inputType"
+            pInputText
+            [(ngModel)]="input.value"
+            [disabled]="input.disabled ?? (input.disabled$ | async) ?? false"
+          />
+        } @else if (input.inputType == types.number) {
+          <!-- number -->
+          <p-inputNumber
+            [inputId]="input.key"
+            [(ngModel)]="input.value"
+            [disabled]="input.disabled ?? (input.disabled$ | async) ?? false"
+          />
+        } @else if (input.inputType == types.search) {
+          <!-- search -->
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="input.value"
+              [disabled]="input.disabled ?? (input.disabled$ | async) ?? false"
+            />
+          </span>
+        } @else if ([types.date, types.time, types.datetime].includes(input.inputType)) {
+          <!-- date/time -->
+          <p-calendar
+            [(ngModel)]="input.value"
+            [timeOnly]="input.inputType === types.time"
+            [iconDisplay]="'input'"
+            [showTime]="input.inputType === types.datetime"
+            [showIcon]="true"
+            [inputId]="input.key"
+            [dateFormat]="input.calendarConfiguration?.dateFormat"
+            [view]="input.calendarConfiguration?.view ?? 'date'"
+            [disabled]="input.disabled ?? (input.disabled$ | async) ?? false"
+            [selectionMode]="input.calendarConfiguration?.selectionMode ?? 'single'"
+            [minDate]="
+              (input.calendarConfiguration?.minDate$ | async) ?? input.calendarConfiguration?.minDate ?? minDate
+            "
+            [maxDate]="
+              (input.calendarConfiguration?.maxDate$ | async) ?? input.calendarConfiguration?.maxDate ?? maxDate
+            "
+          />
+        } @else if (input.inputType == types.dropdown && input.dropdownConfiguration) {
+          <!-- select -->
+          <cms-generic-dropdown
+            class="flex w-full"
+            [configuration]="input.dropdownConfiguration"
+            [(option)]="input.value"
+            [disabled]="input.disabled ?? (input.disabled$ | async)"
+          />
+        } @else if (input.inputType == types.multiSelect && input.multiSelectConfiguration) {
+          <!-- multi-select -->
+          <cms-generic-multi-select
+            class="flex w-full"
+            [configuration]="input.multiSelectConfiguration"
+            [(option)]="input.value"
+            [disabled]="input.disabled ?? (input.disabled$ | async)"
+          />
+        } @else {
+          <span> ({{ input.inputType }}) type not handled </span>
         }
-    </div>
-    <ng-content select="[actions]"></ng-content>
+      </div>
+    }
+  </div>
+  <ng-content select="[actions]"></ng-content>
 </div>

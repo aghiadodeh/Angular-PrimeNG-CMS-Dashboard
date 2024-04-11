@@ -2,21 +2,21 @@ import { OptionTemplate } from "./option.template";
 import { RemoteDataConfiguration } from "./remote-data.configuration";
 
 export interface AutoCompleteConfiguration {
-    multiple?: boolean;
-    dropdown?: boolean;
-    showClear?: boolean;
-    filterBy: string;
-    optionLabel: string;
-    options: any[];
-    optionsFn?: () => any[];
-    valueBy: string;
-    remoteDataConfiguration?: RemoteDataConfiguration;
-    index?: number | number[];
-    indexFn?: (items: any[]) => number | number[];
-    onChange?: (value: any) => void;
-    template?: OptionTemplate;
+  multiple?: boolean;
+  dropdown?: boolean;
+  showClear?: boolean;
+  filterBy: string;
+  optionLabel: string;
+  options: any[];
+  optionsFn?: () => any[];
+  valueBy: string;
+  remoteDataConfiguration?: RemoteDataConfiguration;
+  index?: number | number[];
+  indexFn?: (items: any[]) => number | number[];
+  onChange?: (value: any) => void;
+  template?: OptionTemplate;
 
-    /**
+  /**
      * pass options with group like:
      * @example
      ```
@@ -42,5 +42,5 @@ export interface AutoCompleteConfiguration {
     ],
      ```
      */
-    group?: boolean;
+  group?: boolean;
 }

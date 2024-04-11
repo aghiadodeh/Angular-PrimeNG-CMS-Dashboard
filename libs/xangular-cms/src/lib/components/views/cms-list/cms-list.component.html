@@ -1,46 +1,50 @@
 <div class="cms-container flex flex-column f-height overflow-y-hidden">
-    @if (cmsService.loading$ | async) {
+  @if (cmsService.loading$ | async) {
     <!-- loading -->
-    <p-progressBar mode="indeterminate" [style]="{'height': '2.5px'}" />
-    }
-
-    @if (cmsService.filterSchema.inputs.length > 0) {
+    <p-progressBar mode="indeterminate" [style]="{ height: '2.5px' }" />
+  }
+  @if (cmsService.filterSchema.inputs.length > 0) {
     <!-- custom filters layout -->
     <div #customFilter>
-        <ng-content select="[filters]"></ng-content>
+      <ng-content select="[filters]"></ng-content>
     </div>
 
     @if (customFilter?.children?.length == 0) {
-    <!-- cms filters -->
-    <cms-filters />
+      <!-- cms filters -->
+      <cms-filters />
     }
-    }
+  }
 
-    <!-- dynamic header -->
-    <ng-content select="[header]"></ng-content>
+  <!-- dynamic header -->
+  <ng-content select="[header]"></ng-content>
 
-    <div class="flex flex-column flex-auto overflow-y-hidden">
-        <!-- custom cms layout -->
-        <div #customLayout class="flex overflow-y-hidden">
-            <ng-content select="[custom]"></ng-content>
-        </div>
-
-        @if (customLayout?.children?.length == 0) {
-        <!-- cms table -->
-        <cms-table class="fadein" [templates]="templates">
-            <ng-content cmsStartActions select="[tableStartActions]"></ng-content>
-            <ng-content cmsEndActions select="[tableEndActions]"></ng-content>
-        </cms-table>
-        }
+  <div class="flex flex-column flex-auto overflow-y-hidden">
+    <!-- custom cms layout -->
+    <div #customLayout class="flex overflow-y-hidden">
+      <ng-content select="[custom]"></ng-content>
     </div>
 
-    @if (cmsService.filterSchema.filterDto.pagination != false && (cmsService.viewCmsPaginatior$ | async) == true) {
+    @if (customLayout?.children?.length == 0) {
+      <!-- cms table -->
+      <cms-table class="fadein" [templates]="templates">
+        <ng-content cmsStartActions select="[tableStartActions]"></ng-content>
+        <ng-content cmsEndActions select="[tableEndActions]"></ng-content>
+      </cms-table>
+    }
+  </div>
+
+  @if (cmsService.filterSchema.filterDto.pagination != false && (cmsService.viewCmsPaginator$ | async) == true) {
     <!-- paginator -->
     @if (cmsService.result$ | async; as result) {
-    <p-paginator (onPageChange)="onPageChange($event)" [first]="first"
-        [rows]="cmsService.filterSchema.filterDto.per_page ?? pageSize" [totalRecords]="result.total"
-        [rowsPerPageOptions]="[pageSize, pageSize * 2, pageSize * 3]"
-        currentPageReportTemplate="{first} - {last} of {totalRecords}" [showCurrentPageReport]="true"></p-paginator>
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [first]="first"
+        [rows]="cmsService.filterSchema.filterDto.per_page ?? pageSize"
+        [totalRecords]="result.total"
+        [rowsPerPageOptions]="[pageSize, pageSize * 2, pageSize * 3, pageSize * 4]"
+        currentPageReportTemplate="{first} - {last} of {totalRecords}"
+        [showCurrentPageReport]="true"
+      ></p-paginator>
     }
-    }
+  }
 </div>

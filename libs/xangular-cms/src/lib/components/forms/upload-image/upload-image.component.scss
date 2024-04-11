@@ -1,25 +1,25 @@
 .cms-upload-image {
-    display:inline-block;
-    margin: 0 auto;
-    border: 1px solid var(--primary-color);
-    overflow: hidden;
-    position: relative;
+  display: inline-block;
+  margin: 0 auto;
+  border: 1px solid var(--primary-color);
+  overflow: hidden;
+  position: relative;
 
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .picker {
+    width: 100%;
+    bottom: 0;
+    background-color: #2323236a;
+    color: white;
+    position: absolute;
+
+    span {
+      display: block;
     }
-
-    .picker {
-        width: 100%;
-        bottom: 0;
-        background-color: #2323236a;
-        color: white;
-        position: absolute;
-
-        span {
-            display: block;
-        }
-    }
+  }
 }

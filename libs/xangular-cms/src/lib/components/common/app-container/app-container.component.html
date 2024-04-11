@@ -1,18 +1,21 @@
-<div class="app-container w-screen h-screen flex flex-column" i18n-dir
-    [dir]="(translationService.langDir$ | async) || 'ltr'">
-    <!-- toast message -->
-    <p-toast key="main-toast"></p-toast>
-    <p-confirmDialog key="main-confirm"></p-confirmDialog>
+<div
+  class="app-container w-screen h-screen flex flex-column"
+  i18n-dir
+  [dir]="(translationService.langDir$ | async) || 'ltr'"
+>
+  <!-- toast message -->
+  <p-toast key="main-toast"></p-toast>
+  <p-confirmDialog key="main-confirm"></p-confirmDialog>
 
-    <!-- block screen -->
-    <p-blockUI [blocked]="loading">
-        <div class="w-screen h-screen">
-            <p-progressBar mode="indeterminate" [style]="{height: '2.5px'}"></p-progressBar>
-        </div>
-    </p-blockUI>
-
-    <!-- app content -->
-    <div #appContent>
-        <ng-content select="[content]"></ng-content>
+  <!-- block screen -->
+  <p-blockUI [blocked]="loading">
+    <div class="w-screen h-screen">
+      <p-progressBar mode="indeterminate" [style]="{ height: '2.5px' }"></p-progressBar>
     </div>
+  </p-blockUI>
+
+  <!-- app content -->
+  <div #appContent>
+    <ng-content select="[content]"></ng-content>
+  </div>
 </div>

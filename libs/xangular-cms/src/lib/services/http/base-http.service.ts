@@ -1,20 +1,20 @@
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { catchError, map, Observable, throwError } from 'rxjs';
-import { saveAs } from 'file-saver';
-import { isMoment } from 'moment-timezone';
-import { inject } from '@angular/core';
-import { BaseResponse } from '../../models/responses/base.response';
-import { AppError } from '../../models/data/app-error';
+import { HttpClient, HttpErrorResponse, HttpResponse } from "@angular/common/http";
+import { catchError, map, Observable, throwError } from "rxjs";
+import { saveAs } from "file-saver";
+import { isMoment } from "moment-timezone";
+import { inject } from "@angular/core";
+import { BaseResponse } from "../../models/responses/base.response";
+import { AppError } from "../../models/data/app-error";
 
 export interface BaseHttpConfig {
-  params?: any,
-  headers?: any,
-  context?: any
+  params?: any;
+  headers?: any;
+  context?: any;
 }
 
 export class BaseHttpService {
   protected httpClient: HttpClient = inject(HttpClient);
-  constructor(protected baseUrl: string) { }
+  constructor(protected baseUrl: string) {}
 
   protected getFullUrl(endPoint: string): string {
     if (endPoint.length == 0) return this.baseUrl;
@@ -29,72 +29,73 @@ export class BaseHttpService {
    * @param {string} ext file extension
    * @param {BaseHttpConfig} config base http config
    */
-  public download(
-    endPoint: string,
-    filename: string,
-    ext: string,
-    config?: BaseHttpConfig,
-  ): Observable<any> {
+  public download(endPoint: string, filename: string, ext: string, config?: BaseHttpConfig): Observable<any> {
     return this.httpClient
       .get(this.getFullUrl(endPoint), {
         params: config?.params,
         headers: config?.headers,
-        observe: 'response',
-        responseType: 'blob',
-      }).pipe(
-        map(res => {
+        observe: "response",
+        responseType: "blob",
+      })
+      .pipe(
+        map((res) => {
           if (res && res.body instanceof Blob) {
             saveAs(res.body, `${filename}.${ext}`);
           }
         }),
         catchError((error) => {
           return this.handleError(error);
-        })
+        }),
       );
   }
 
-  public get<T>(resourceName: string = '', config: BaseHttpConfig = {}): Observable<BaseResponse<T>> {
-    return this.httpClient
-      .get<HttpResponse<T>>(this.getFullUrl(resourceName), config)
-      .pipe(map(this.mapResponse), catchError((error) => {
+  public get<T>(resourceName: string = "", config: BaseHttpConfig = {}): Observable<BaseResponse<T>> {
+    return this.httpClient.get<HttpResponse<T>>(this.getFullUrl(resourceName), config).pipe(
+      map(this.mapResponse),
+      catchError((error) => {
         return this.handleError(error);
-      }));
+      }),
+    );
   }
 
   public post<T>(resourceName: string, body: any = null): Observable<BaseResponse<T>> {
-    return this.httpClient
-      .post<HttpResponse<T>>(this.getFullUrl(resourceName), body)
-      .pipe(map(this.mapResponse), catchError((error) => {
+    return this.httpClient.post<HttpResponse<T>>(this.getFullUrl(resourceName), body).pipe(
+      map(this.mapResponse),
+      catchError((error) => {
         return this.handleError(error);
-      }));
+      }),
+    );
   }
 
   public put<T>(resourceName: string, body: any = null): Observable<BaseResponse<T>> {
-    return this.httpClient
-      .put<HttpResponse<T>>(this.getFullUrl(resourceName), body)
-      .pipe(map(this.mapResponse), catchError((error) => {
+    return this.httpClient.put<HttpResponse<T>>(this.getFullUrl(resourceName), body).pipe(
+      map(this.mapResponse),
+      catchError((error) => {
         return this.handleError(error);
-      }));
+      }),
+    );
   }
 
   public patch<T>(resourceName: string, body: any = null): Observable<BaseResponse<T>> {
-    return this.httpClient
-      .patch<HttpResponse<T>>(this.getFullUrl(resourceName), body)
-      .pipe(map(this.mapResponse), catchError((error) => {
+    return this.httpClient.patch<HttpResponse<T>>(this.getFullUrl(resourceName), body).pipe(
+      map(this.mapResponse),
+      catchError((error) => {
         return this.handleError(error);
-      }));
+      }),
+    );
   }
 
   public delete(resourceName: string): Observable<BaseResponse<null>> {
-    return this.httpClient
-      .delete<HttpResponse<any>>(this.getFullUrl(resourceName))
-      .pipe(map(this.mapResponse), catchError((error) => {
+    return this.httpClient.delete<HttpResponse<any>>(this.getFullUrl(resourceName)).pipe(
+      map(this.mapResponse),
+      catchError((error) => {
         return this.handleError(error);
-      }));
+      }),
+    );
   }
 
   /**
-   * map http-response to base-reponse
+   * map http-response to base-response
    * if your backend return a response not matching with BaseResponse
    * you can override this method inside your service
    * @example
@@ -133,7 +134,7 @@ export class BaseHttpService {
         continue;
       }
 
-      if (object[key] !== null && typeof object[key] !== 'undefined') {
+      if (object[key] !== null && typeof object[key] !== "undefined") {
         formData.append(key, object[key]);
       }
     }
@@ -143,8 +144,10 @@ export class BaseHttpService {
 
   protected handleError(error: Error): Observable<never> {
     if (error instanceof HttpErrorResponse && error.status != 401) {
-      this.displayError(error.error.message);
-      return throwError(() => new AppError(error.error.message));
+      const cause = error.error?.error;
+      const message = error.error.message ?? error.error;
+      this.displayError(message, cause);
+      return throwError(() => new AppError(message, cause));
     }
     return throwError(() => new HttpErrorResponse({ error: error.message }));
   }
@@ -153,5 +156,5 @@ export class BaseHttpService {
    * override this method to display error messages as you wish
    * @param error backend error
    */
-  protected displayError(error?: any): void { }
+  protected displayError(error?: any, cause?: any): void {}
 }

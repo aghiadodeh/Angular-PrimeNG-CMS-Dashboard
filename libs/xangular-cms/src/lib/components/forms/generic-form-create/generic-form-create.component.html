@@ -1,20 +1,25 @@
 <div class="generic-form-create flex flex-column w-full justify-content-center align-items-center gap-2 p-3">
-    @if (cmsService.formSchema?.title | functionPipe; as title) {
+  @if (cmsService.formSchema?.title | functionPipe; as title) {
     <!-- title -->
     <div class="w-full flex align-items-start">
-        <span class="text-900 font-medium text-3xl">{{ title | translate }}</span>
+      <span class="text-900 font-medium text-3xl">{{ title | translate }}</span>
     </div>
-    }
-    
-    <!-- form builder -->
-    <cms-generic-form-builder class="w-full" [formSchema]="cmsService.formSchema!" />
+  }
 
-    <!-- submit -->
-    @if (submitButton) {
+  <!-- form builder -->
+  <cms-generic-form-builder class="w-full" [formSchema]="cmsService.formSchema!" />
+
+  <!-- submit -->
+  @if (submitButton) {
     <p-divider class="w-full" />
-    <p-button [outlined]="true" [rounded]="true" [disabled]="(cmsService.loading$ | async) ?? false"
-        [loading]="(cmsService.loading$ | async) ?? false" (onClick)="submit()">
-        <span class="px-2">{{ 'submit' | translate }}</span>
+    <p-button
+      [outlined]="true"
+      [rounded]="true"
+      [disabled]="(cmsService.loading$ | async) ?? false"
+      [loading]="(cmsService.loading$ | async) ?? false"
+      (onClick)="submit()"
+    >
+      <span class="px-2">{{ "submit" | translate }}</span>
     </p-button>
-    }
+  }
 </div>

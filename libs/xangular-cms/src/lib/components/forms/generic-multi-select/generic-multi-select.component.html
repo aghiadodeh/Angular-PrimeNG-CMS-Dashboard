@@ -1,20 +1,28 @@
-<div class="generic-mutliSelect w-full">
-    <p-multiSelect [class]="'w-full' + (invalid ? ' ng-dirty ng-invalid' : '')" [options]="configuration.options"
-        [optionLabel]="configuration.optionLabel" [appendTo]="'body'" [filter]="configuration.filter ?? true"
-        [filterBy]="configuration.filterBy" [showClear]="configuration.showClear != false"
-        [disabled]="(disabled ?? false) || loading" [(ngModel)]="option"
-        [dropdownIcon]="loading ? 'pi pi-spin pi-spinner' : 'pi pi-chevron-down'"
-        [display]="configuration.display ?? 'chip'" (onChange)="onChange($event)">
-        @if (configuration.template; as template) {
-        <!-- dropdown suggestion item -->
-        <ng-template let-item pTemplate="item">
-            <div class="flex align-items-center" [ngClass]="template.ngClass">
-                @if (template.imageSrc) {
-                <img [src]="template.imageSrc | functionPipe:item">
-                }
-                <span>{{ item[configuration.optionLabel] }}</span>
-            </div>
-        </ng-template>
-        }
-    </p-multiSelect>
+<div class="generic-multiSelect w-full">
+  <p-multiSelect
+    [class]="'w-full' + (invalid ? ' ng-dirty ng-invalid' : '')"
+    [options]="configuration.options"
+    [optionLabel]="configuration.optionLabel"
+    [filter]="configuration.filter ?? true"
+    [filterBy]="configuration.filterBy"
+    [showClear]="configuration.showClear !== false"
+    [disabled]="(disabled ?? false) || loading"
+    [(ngModel)]="option"
+    [dropdownIcon]="loading ? 'pi pi-spin pi-spinner' : 'pi pi-chevron-down'"
+    [display]="configuration.display ?? 'comma'"
+    (onChange)="onChange($event)"
+    appendTo="body"
+  >
+    @if (configuration.template; as template) {
+      <!-- dropdown suggestion item -->
+      <ng-template let-item pTemplate="item">
+        <div class="flex align-items-center" [ngClass]="template.ngClass">
+          @if (template.imageSrc) {
+            <img [src]="template.imageSrc | functionPipe: item" />
+          }
+          <span>{{ item[configuration.optionLabel] }}</span>
+        </div>
+      </ng-template>
+    }
+  </p-multiSelect>
 </div>

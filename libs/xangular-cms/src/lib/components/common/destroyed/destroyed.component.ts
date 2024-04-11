@@ -1,7 +1,7 @@
 import { Component, DestroyRef, OnInit, inject } from "@angular/core";
 import { Subject } from "rxjs";
 
-@Component({ template: '' })
+@Component({ template: "" })
 export abstract class DestroyedComponent implements OnInit {
   protected destroyRef = inject(DestroyRef);
   protected destroyed = new Subject();

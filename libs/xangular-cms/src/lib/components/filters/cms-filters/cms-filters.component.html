@@ -1,22 +1,29 @@
-<p-accordion class="no-header-radius"
-    [activeIndex]="isTablet || cmsService.crudConfiguration.openFilterAccordion === false ? undefined : 0">
-    <p-accordionTab>
-        <ng-template pTemplate="header">
-            <i class="pi pi-filter"></i>
-            <span class="px-1">{{ 'filters' | translate }}</span>
-        </ng-template>
-        <cms-generic-filters [filterSchema]="cmsService.filterSchema">
-            <div class="flex justify-content-end align-items-center pt-3" actions>
-                <!-- reset filters -->
-                <p-button [text]="true" severity="danger" [disabled]="(cmsService.loading$ | async) ?? false"
-                    (onClick)="resetFilters()">
-                    <span>{{ 'reset' | translate }}</span>
-                </p-button>
-                <!-- apply filters -->
-                <p-button [text]="true" [disabled]="(cmsService.loading$ | async) ?? false" (onClick)="applyFilters()">
-                    <span>{{ 'apply' | translate }}</span>
-                </p-button>
-            </div>
-        </cms-generic-filters>
-    </p-accordionTab>
+<p-accordion
+  class="no-header-radius"
+  [activeIndex]="isTablet || cmsService.crudConfiguration.openFilterAccordion === false ? undefined : 0"
+  [expandIcon]="(translationService.languageChange$ | async) === 'ar' ? 'pi pi-chevron-left' : 'pi pi-chevron-right'"
+>
+  <p-accordionTab>
+    <ng-template pTemplate="header">
+      <i class="pi pi-filter"></i>
+      <span class="px-1">{{ "filters" | translate }}</span>
+    </ng-template>
+    <cms-generic-filters [filterSchema]="cmsService.filterSchema">
+      <div class="flex justify-content-end align-items-center pt-3" actions>
+        <!-- reset filters -->
+        <p-button
+          [text]="true"
+          severity="danger"
+          [disabled]="(cmsService.loading$ | async) ?? false"
+          (onClick)="resetFilters(true)"
+        >
+          <span>{{ "reset" | translate }}</span>
+        </p-button>
+        <!-- apply filters -->
+        <p-button [text]="true" [disabled]="(cmsService.loading$ | async) ?? false" (onClick)="applyFilters()">
+          <span>{{ "apply" | translate }}</span>
+        </p-button>
+      </div>
+    </cms-generic-filters>
+  </p-accordionTab>
 </p-accordion>
